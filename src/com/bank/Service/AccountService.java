@@ -43,34 +43,37 @@ public class AccountService {
     }
 
     private CustomerInfo readCustomerInfo(Scanner scanner){
-        System.out.print("Enter customer name: ");
-        String customerName = scanner.nextLine().trim();
+        String customerWelcome = "Enter customer name: ";
+        System.out.print(customerWelcome);
+        String customerName = inputValidation.getStringFromConsole(scanner, "PUT IN VALID NAME \n"+ customerWelcome);
         System.out.print("Enter customer age: ");
-        int age = inputValidation.getIntegerFromConsole(scanner, "put in a valid number");
-        System.out.print("Enter customer contact: ");
-        String contact = scanner.nextLine().trim();
-        System.out.print("Enter customer address: ");
-        String address = scanner.nextLine().trim();
+        int age = inputValidation.getAgeFromConsole(scanner, "put in a valid age");
+        String customerContact = "Enter customer contact: ";
+        System.out.print(customerContact);
+        String contact = inputValidation.getStringFromConsole(scanner, "PUT IN VALID NAME \n"+ customerContact);
+        String customerAddress = "Enter customer address: ";
+        System.out.print(customerAddress);
+        String address = inputValidation.getStringFromConsole(scanner, "PUT IN VALID NAME \n"+ customerAddress);
         return new CustomerInfo(customerName, age, contact, address);
     }
     private int readCustomerType(Scanner scanner){
         System.out.println("\nCustomer type:");
         System.out.println("1. Regular Customer (Standard banking services)");
         System.out.println("2. Premium Customer (Enhanced benefits, min balance $10, 000)");
-        System.out.println("\n Select type (1-2):");
-       return inputValidation.getChoice(scanner, 1,2);
+        System.out.print("\nSelect type (1-2): ");
+       return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): ") ;
     }
     private int readAccountType(Scanner scanner){
         System.out.println("\nAccount type:");
-        System.out.println("1. Saving Account");
-        System.out.println("2. Checking Account");
-        System.out.print("Select type (1-2): ");
-        return inputValidation.getChoice(scanner, 1,2);
+        System.out.println("1. Saving Account (Interest: 3.5%, Min Balance: $500)");
+        System.out.println("2. Checking Account (Overdraft: $1,000, Monthly Fee: $10)");
+        System.out.print("\nSelect type (1-2): ");
+        return inputValidation.getChoice(scanner, 1,2, "Select type (1-2): ");
     }
 
 
     private double readAndValidateDeposit(int accountChoice, Scanner scanner){
-        System.out.print("Enter initial deposit amount: $");
+        System.out.print("\nEnter initial deposit amount: $");
         while(true){
 
            double deposit = inputValidation.getDoubleFromConsole(scanner, "Enter a valid deposit amount");

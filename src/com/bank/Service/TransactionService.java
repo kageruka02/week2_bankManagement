@@ -5,6 +5,7 @@ import com.bank.management.TransactionManager;
 import com.bank.model.Accounts.Account;
 import com.bank.model.Transactions.Transaction;
 import com.bank.utils.AccountDisplaysUtils;
+import com.bank.utils.FormatUtils;
 import com.bank.utils.InputValidation;
 
 import java.util.Scanner;
@@ -21,23 +22,30 @@ public class TransactionService {
 
        Account account = readAndSearchValidAccount(scanner, inputValidation,accountManager);
        AccountDisplaysUtils.printAccountInTransaction(account);
-       int number = readTransactionType(scanner);
+       int transactionTypeNumber = readTransactionType(scanner);
 
-       System.out.print("Enter amount: $");
-       double inputCash = inputValidation.getPositiveAmount(0, scanner,  "plz input valid amount of money");
-
-       Transaction transaction = previewTransaction(number, inputCash, account);
-       if (transaction == null){
-           return null;
-       }
+      Transaction transaction = readAndPreviewTransaction(scanner, transactionTypeNumber, account);
        displayTransactionConfirmation(transaction, account);
-       String confirmFromUser = inputValidation.getCharFrom2Chars(scanner, "Y","N", "plz put valid options" );
+       String confirmFromUser = inputValidation.getCharFrom2Chars(scanner, "Y","N", "Confirm transaction? (Y/N) " );
 
        if (performRealTransaction(confirmFromUser, account, transaction)){
+          System.out.println();
+           System.out.println('✓' + "Transaction completed successfully!");
            return transaction;
        }
        else{
            return null;
+       }
+   }
+
+   private Transaction readAndPreviewTransaction(Scanner scanner, int type, Account account ){
+       while(true){
+           System.out.print("\nEnter amount: $");
+           double inputCash = inputValidation.getPositiveAmount(scanner,  "Enter amount: $ ");
+           Transaction transaction = previewTransaction(type, inputCash, account);
+           if (transaction != null){
+               return transaction;
+           }
        }
    }
 
@@ -73,19 +81,21 @@ public class TransactionService {
     }
 
     private void displayTransactionConfirmation(Transaction transaction, Account account){
+       System.out.println();
         System.out.println("TRANSACTION CONFIRMATION");
         System.out.println("_".repeat(50));
         System.out.println("Transaction ID:" + transaction.getTransactionId());
         System.out.println("Account: "+ account.getAccountNumber());
         System.out.println("Type: "+ transaction.getType().toUpperCase());
-        System.out.println("Amount: $"+ transaction.getAmount());
-        System.out.println("Previous Balance: $"+ account.getBalance());
-        System.out.println("New Balance: $"+ transaction.getBalanceAfter());
+        System.out.println("Amount: $"+ FormatUtils.formatAmount(transaction.getAmount()) );
+        System.out.println("Previous Balance: $"+ FormatUtils.formatAmount(account.getBalance()) );
+        System.out.println("New Balance: $"+FormatUtils.formatAmount(transaction.getBalanceAfter()) );
         System.out.println("Date/Time: "+ transaction.getTimeStamp());
 
         System.out.println("-".repeat(50));
 
-        System.out.println("Confirm transaction? (Y/N)");
+        System.out.println();
+        System.out.print("Confirm transaction? (Y/N) ");
     }
 
 
@@ -94,8 +104,8 @@ public class TransactionService {
        if (confirmed.equalsIgnoreCase("y")){
 
            transaction.commit();
-           account.processTransaction(transaction.getAmount(), transaction.getType());
-           return true;
+           return account.processTransaction(transaction.getAmount(), transaction.getType());
+
 
        }
       return false;
@@ -133,12 +143,14 @@ public class TransactionService {
    }
 
    private int readTransactionType(Scanner scanner){
+       System.out.println();
        System.out.println("Transaction type: ");
        System.out.println("1. Deposit");
        System.out.println("2. Withdrawal");
 
-       System.out.println("Select type (1-2): ");
-       return inputValidation.getChoice(scanner, 1,2);
+       System.out.println();
+       System.out.print("Select type (1-2): ");
+       return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): " );
    }
 
 

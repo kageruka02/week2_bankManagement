@@ -16,7 +16,7 @@ public class AccountDisplaysUtils {
 
     public static void printAllAccountsToCLi(AccountManager accountManager) throws  Exception{
 
-        System.out.println("ACCOUNT LISTING");
+        System.out.println("\nACCOUNT LISTING");
         Thread.sleep(200);
         String accountNumberTitle = FormatUtils.giveStringFixedLength( "ACC NO", 10);
         String customerNameTitle = FormatUtils.giveStringFixedLength("CUSTOMER NAME", 20);
@@ -38,32 +38,33 @@ public class AccountDisplaysUtils {
 
     public static void displayAfterSuccessfulCreation(Account account){
         char check = '✓';
-        System.out.println(check +"Account create successfully");
-        System.out.println("Account Number:" + account.getAccountNumber());
+        System.out.println();
+        System.out.println(check +" Account created successfully");
+        System.out.println("  Account Number:" + account.getAccountNumber());
         String customerType =  account.getCustomer().getCustomerType();
-        System.out.println("Customer: " + account.getCustomer().getName() + " (" + customerType+ ")");
-        System.out.println("Account Type: " + account.getAccountType());
-        System.out.println("Initial Balance: $"+ FormatUtils.formatAmount(account.getBalance()) );
+        System.out.println("  Customer: " + account.getCustomer().getName() + " (" + customerType+ ")");
+        System.out.println("  Account Type: " + account.getAccountType());
+        System.out.println("  Initial Balance: $"+ FormatUtils.formatAmount(account.getBalance()) );
         if (account instanceof SavingsAccount){
             double interest = (double) Math.round(((SavingsAccount) account).getInterestRate() * 1000) /10;
-            System.out.println("Interest Rate: "+ interest + "%");
-            System.out.println("Minimum Balance: $"+ FormatUtils.formatAmount(((SavingsAccount) account).getMinimumBalance())) ;
+            System.out.println("  Interest Rate: "+ interest + "%");
+            System.out.println("  Minimum Balance: $"+ FormatUtils.formatAmount(((SavingsAccount) account).getMinimumBalance())) ;
 
 
         }
         else if (account instanceof CheckingAccount){
-            System.out.println("Overdraft Limit $"+ FormatUtils.formatAmount(((CheckingAccount) account).getOverdraftLimit())) ;
+            System.out.println("  Overdraft Limit $"+ FormatUtils.formatAmount(((CheckingAccount) account).getOverdraftLimit())) ;
 
             if (customerType.equalsIgnoreCase("premium")){
-                System.out.println("Monthly Fee: $0.00 (WAIVED - Premium Customer)" );
+                System.out.println("  Monthly Fee: $0.00 (WAIVED - Premium Customer)" );
             }
             else{
-                System.out.println("Monthly Fee: $"  + FormatUtils.formatAmount(((CheckingAccount) account).getMonthlyFee())) ;
+                System.out.println("  Monthly Fee: $"  + FormatUtils.formatAmount(((CheckingAccount) account).getMonthlyFee())) ;
 
             }
 
         }
-        System.out.println("Status: "+ account.getStatus());
+        System.out.println("  Status: "+ account.getStatus());
 
 
     }

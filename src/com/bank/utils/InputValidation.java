@@ -5,18 +5,34 @@ import java.util.Scanner;
 public class InputValidation {
 
 
-    public int getIntegerFromConsole(Scanner scanner, String message){
+    public int getAgeFromConsole(Scanner scanner, String message){
         while(true){
 
             try {
-                return Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
-                System.out.println(message);
+                int age =  Integer.parseInt(scanner.nextLine().trim());
+                if (age > 0){
+                    return age;
+                }
+            } catch (NumberFormatException ignored) {
+
             }
+            System.out.println(message.toUpperCase());
+            System.out.print("Enter customer age: ");
         }
     }
 
-    public  int getChoice(Scanner scanner, int min, int max){
+    public String getStringFromConsole(Scanner scanner, String message){
+
+        while(true){
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()){
+                return input;
+            }
+            System.out.print(message);
+        }
+    }
+
+    public  int getChoice(Scanner scanner, int min, int max, String message){
 
         while(true){
 
@@ -28,11 +44,11 @@ public class InputValidation {
             } catch (NumberFormatException e) {
                 // ignore, will print message below
             }
-            System.out.println("Enter valid option");
+            System.out.print("ENTER VALID OPTION \n"+ message);
         }
     }
 
-    public  int rangeChoice(Scanner scanner,int min, int max ){
+    public  int rangeChoice(Scanner scanner, int min, int max, String s){
 
         while(true){
             try {
@@ -43,21 +59,23 @@ public class InputValidation {
             } catch (NumberFormatException e) {
                 // ignore, will print message below
             }
-            System.out.println("Enter valid option");
+            System.out.print("ENTER VALID OPTION \n"+ s);
         }
     }
 
-    public double getPositiveAmount(double amount, Scanner scanner, String message){
+    public double getPositiveAmount( Scanner scanner, String message){
         while(true){
             try {
-                double inputAmount = Double.parseDouble(scanner.nextLine().trim());
-                if (inputAmount > amount) {
+               double inputAmount = Double.parseDouble(scanner.nextLine().trim());
+                if (inputAmount > 0) {
                     return inputAmount;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println(message);
+                if (inputAmount <= 0){
+                    System.out.print("YOU CAN NOT INPUT AMOUNT LESS THAN OR EQUAL TO 0 TRY AGAIN\n"+message );
+                }
+            } catch (NumberFormatException ignored) {
+                System.out.print("INPUT VALID AMOUNT\n"+ message);
             }
-            System.out.println("Enter amount: $");
         }
     }
 
@@ -87,7 +105,7 @@ public class InputValidation {
                 }
 
                 System.out.println(message);
-                System.out.println("Enter Account Number: ");
+                System.out.print("Enter Account Number: ");
 
 
         }
@@ -103,7 +121,7 @@ public class InputValidation {
                 return input;
             }
             else{
-                System.out.println(message);
+                System.out.print("PLEASE CONFIRM THE TRANSACTION WITH Y(IF YOU APPROVE) OR N(IF YOU DON'T)\n"+ message);
             }
         }
     }

@@ -22,42 +22,17 @@ public class MenuService {
     public  void starter() throws Exception{
 
         accountService.create5AccountstoBeginWith(accountManager);
-
-
         while(true){
 
-
-
-            String text ="||   " +  "BANK ACCOUNT MANAGEMENT - MAIN MENU" + "    ||";
-            String horizontalLine1 =     "_".repeat(text.length()-1);
-            String verticalLine1 = "||" + " ".repeat(text.length() -4) + "||";
-            String horizontalLine2 = "| " + "-".repeat(text.length()-4) + " |";
-
-
-            System.out.println(horizontalLine1);
-            System.out.println(horizontalLine2);
-            System.out.println(verticalLine1);
-            System.out.println(verticalLine1);
-            System.out.println(verticalLine1);
-            System.out.println(text);
-            System.out.println(verticalLine1);
-            System.out.println(horizontalLine2);
-            System.out.println(horizontalLine1);
-
-            System.out.println("1. Create Account");
-            System.out.println("2. View Accounts");
-            System.out.println("3. Process Transaction");
-            System.out.println("4. View Transaction History");
-            System.out.println("5. Exit");
-
-            System.out.print("Enter choice: _");
-            int menuOption = inputValidation.rangeChoice(scanner, 1,5);
+            printMenuService();
+            System.out.print("Enter choice: ");
+            int menuOption = inputValidation.rangeChoice(scanner, 1,5, "Enter choice: ");
 
             switch(menuOption){
                 case 1:
                   accountManager.addAccount(accountService.initiateCreatingAccount(scanner));
                   ConsoleUtils.waitForEnter(scanner);
-                    break;
+                  break;
                 case 2:
                     AccountDisplaysUtils.printAllAccountsToCLi(accountManager);
                     ConsoleUtils.waitForEnter(scanner);
@@ -77,10 +52,30 @@ public class MenuService {
 
             }
         }
+    }
+
+    private void printMenuService(){
+        String text ="||   " +  "BANK ACCOUNT MANAGEMENT - MAIN MENU" + "    ||";
+        String horizontalLine1 =     "_".repeat(text.length()-1);
+        String verticalLine1 = "||" + " ".repeat(text.length() -4) + "||";
+        String horizontalLine2 = "| " + "-".repeat(text.length()-4) + " |";
 
 
+        System.out.println(horizontalLine1);
+        System.out.println(horizontalLine2);
+        System.out.println(verticalLine1);
+        System.out.println(verticalLine1);
+        System.out.println(verticalLine1);
+        System.out.println(text);
+        System.out.println(verticalLine1);
+        System.out.println(horizontalLine2);
+        System.out.println(horizontalLine1);
 
-
+        System.out.println("1. Create Account");
+        System.out.println("2. View Accounts");
+        System.out.println("3. Process Transaction");
+        System.out.println("4. View Transaction History");
+        System.out.println("5. Exit");
     }
 
 }

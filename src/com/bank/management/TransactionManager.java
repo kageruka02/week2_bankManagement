@@ -10,13 +10,17 @@ public class TransactionManager {
     private int transactionCount = 0;
 
     public void addTransaction(Transaction toBeCreatedTransaction){
-        if (transactionCount < 200 && toBeCreatedTransaction != null){
+        if (toBeCreatedTransaction == null){
+            return;
+        }
+        if (transactionCount < 200){
             transactions[transactionCount] = toBeCreatedTransaction;
             transactionCount++;
         }
         else{
-            System.out.println("our database is full");
+            System.out.println("Our database is full");
         }
+
     }
 
     /**

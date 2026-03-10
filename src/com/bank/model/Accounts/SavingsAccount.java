@@ -63,13 +63,16 @@ public class SavingsAccount extends Account {
     public Double calculateWithdrawal(double amount) {
         double balance = super.getBalance();
         if (amount <= 0 || amount > balance){
-            System.out.println("you can only  withdraw up to "+ (balance-this.getMinimumBalance()));
+            System.out.println("you can only  withdraw up to $"+
+                    FormatUtils.formatAmount(balance-this.getMinimumBalance()));
             return null;
         }
         double remainingBalance =  balance - amount;
 
         if (remainingBalance < this.minimumBalance){
-            System.out.println("you can only  withdraw up to "+ (balance-this.getMinimumBalance()));
+            System.out.println("This is a saving account The minimum balance is $500");
+            System.out.println("you can only  withdraw up to $"+ FormatUtils.formatAmount(balance-this.getMinimumBalance()));
+
             return null;
         }
         return remainingBalance;

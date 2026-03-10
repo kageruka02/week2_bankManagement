@@ -72,6 +72,8 @@ public class CheckingAccount  extends Account {
 
         if (   remainingBalance < -this.overdraftLimit){
             double allowedWithdrawal = balance+this.overdraftLimit;
+            System.out.println("Your balance is $"+ FormatUtils.formatAmount(this.getBalance()));
+            System.out.println("The overdraft is $"+ FormatUtils.formatAmount(this.overdraftLimit));
             System.out.println("Don't exceed the overdraft you can only withdraw "+FormatUtils.formatAmount(allowedWithdrawal));
             return null ;
         }
