@@ -123,7 +123,7 @@ Project Maintainer - kageruka02
 
 📧 Email: irumvaleon@gmail.com
 
-🔗 Project Link: https://github.com/kageruka02/BankManagementApplication/tree/optimizedVersion  
+🔗 Project Link: https://github.com/kageruka02/BankManagementApplication
 
 
 
