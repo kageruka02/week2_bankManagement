@@ -6,7 +6,7 @@ import com.bank.utils.MenuService;
 
 
 public class Main {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
 
 
 

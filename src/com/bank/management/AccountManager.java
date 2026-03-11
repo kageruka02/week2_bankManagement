@@ -28,12 +28,12 @@ public class AccountManager {
         return null;
     }
 
-    public void viewAllAccounts() throws  Exception{
+    public void viewAllAccounts() {
 
         for(int index=0; index < accountCount ; index++ ){
             accounts[index].displayAccountDetails();
             System.out.println("_".repeat(70));
-            Thread.sleep(500);
+
         }
     }
 

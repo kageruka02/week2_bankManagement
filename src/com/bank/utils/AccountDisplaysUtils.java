@@ -14,10 +14,9 @@ public class AccountDisplaysUtils {
         System.out.println("Current Balance: $"+ FormatUtils.formatAmount(account.getBalance()) );
     }
 
-    public static void printAllAccountsToCLi(AccountManager accountManager) throws  Exception{
+    public static void printAllAccountsToCLi(AccountManager accountManager) {
 
         System.out.println("\nACCOUNT LISTING");
-        Thread.sleep(200);
         String accountNumberTitle = FormatUtils.giveStringFixedLength( "ACC NO", 10);
         String customerNameTitle = FormatUtils.giveStringFixedLength("CUSTOMER NAME", 20);
         String typeTitle = FormatUtils.giveStringFixedLength("TYPE", 12);
@@ -27,17 +26,17 @@ public class AccountDisplaysUtils {
         String formatted = String.format("%s | %s | %s | %s | %s", accountNumberTitle, customerNameTitle, typeTitle, balanceTitle, statusTitle
         );
         System.out.println(formatted);
-        Thread.sleep(200);
+
         accountManager.viewAllAccounts();
-        Thread.sleep(200);
+
         System.out.println("Accounts : "+accountManager.getAccountCount());
 
-        Thread.sleep(200);
+
         System.out.println("Total Bank Balance: $"+ FormatUtils.formatAmount(accountManager.getTotalBalance()));
     }
 
     public static void displayAfterSuccessfulCreation(Account account){
-        char check = '✓';
+        char check = '\u2713';
         System.out.println();
         System.out.println(check +" Account created successfully");
         System.out.println("  Account Number:" + account.getAccountNumber());

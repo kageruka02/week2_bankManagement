@@ -4,16 +4,16 @@ import java.util.Scanner;
 
 public class ConsoleUtils {
     // Waits until user presses Enter
-    public static void waitForEnter(Scanner scanner) throws Exception {
+    public static void waitForEnter(Scanner scanner) {
         System.out.print("\nPress Enter to continue...");
         scanner.nextLine(); // waits for Enter
-        Thread.sleep(200);
+
     }
 
-    public static void waitForEnter(Scanner scanner, String message) throws Exception{
+    public static void waitForEnter(Scanner scanner, String message) {
         System.out.print(message);
         scanner.nextLine();
-        Thread.sleep(200);
+
     }
 
 }
