@@ -4,12 +4,15 @@ import com.bank.model.Accounts.Account;
 
 public class AccountManager {
 
-    private Account[] accounts = new Account[50];
+    private final Account[] accounts = new Account[50];
     private int accountCount = 0;
 
-    public void addAccount(Account toBeCreatedAccount){
-        if (accountCount < 50 && toBeCreatedAccount != null){
-            accounts[accountCount] = toBeCreatedAccount;
+    public void addAccount(Account toBeStoredAccount){
+        if (toBeStoredAccount == null){
+            return;
+        }
+        if (accountCount < 50){
+            accounts[accountCount] = toBeStoredAccount;
             this.accountCount++;
         }
         else{

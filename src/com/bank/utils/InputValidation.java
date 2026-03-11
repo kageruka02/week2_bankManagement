@@ -4,7 +4,13 @@ import java.util.Scanner;
 
 public class InputValidation {
 
-
+    /**
+     * takes age from console and only returns if it is > 0
+     *
+     * @param scanner
+     * @param message
+     * @return
+     */
     public int getAgeFromConsole(Scanner scanner, String message){
         while(true){
 
@@ -21,6 +27,13 @@ public class InputValidation {
         }
     }
 
+    /**
+     *  takes string from console and only returns if the string is not empty
+     *
+     * @param scanner
+     * @param message
+     * @return
+     */
     public String getStringFromConsole(Scanner scanner, String message){
 
         while(true){
@@ -32,13 +45,22 @@ public class InputValidation {
         }
     }
 
-    public  int getChoice(Scanner scanner, int min, int max, String message){
+    /**
+     *takes the input from user and checks if it is equal to allowedValueA or allowedValueB
+     *
+     * @param scanner takes input from console
+     * @param allowedValueA choice the input maybe equal to
+     * @param allowedValueB choice the input maybe equal to
+     * @param message will be printed if the user enters invalid choice
+     * @return
+     */
+    public  int getChoice(Scanner scanner, int allowedValueA, int allowedValueB, String message){
 
         while(true){
 
             try {
                 int choice = Integer.parseInt(scanner.nextLine().trim());
-                if (choice == min || choice == max) {
+                if (choice == allowedValueA || choice == allowedValueB) {
                     return choice;
                 }
             } catch (NumberFormatException e) {
@@ -86,7 +108,7 @@ public class InputValidation {
             try {
                 return Double.parseDouble(scanner.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println(message);
+                System.out.print("INVALID AMOUNT\n" + message);
             }
 
         }

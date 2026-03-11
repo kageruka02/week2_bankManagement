@@ -15,7 +15,7 @@ public abstract class Account implements Transactable {
 
     public Account(){
         setAccountNumber();
-    };
+    }
 
     public Account(double balance, Customer customer){
         this.balance = balance;

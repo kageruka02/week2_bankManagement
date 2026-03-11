@@ -14,7 +14,7 @@ public   class Transaction {
     private String accountNumber;
     private double amount;
     private String type;
-    private double balanceAfter;
+    private final double balanceAfter;
     private String timeStamp;
 
     public Transaction(String accountNumber, double amount, String type, double balanceAfter) {
@@ -54,7 +54,7 @@ public   class Transaction {
     }
 
     public void displayTransactionDetails(){
-//10 22 12 15 12
+
         String transactionId = FormatUtils.giveStringFixedLength(getTransactionId(), 10);
         String dateTime = FormatUtils.giveStringFixedLength(getTimeStamp(), 22);
         String type = FormatUtils.giveStringFixedLength(getType(), 12);

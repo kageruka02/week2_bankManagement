@@ -6,8 +6,8 @@ import com.bank.utils.FormatUtils;
 public class TransactionManager {
 
 
-    private Transaction[] transactions = new Transaction[200];
-    private int transactionCount = 0;
+    private final Transaction[] transactions = new Transaction[200];
+    private int transactionCount = 0;//keep track of all transactions stored in transactions
 
     public void addTransaction(Transaction toBeCreatedTransaction){
         if (toBeCreatedTransaction == null){
@@ -24,30 +24,33 @@ public class TransactionManager {
     }
 
     /**
+     * search for all transactions for accountNumber and print them from the most recent to the least recent
      *
-     * @param accountNumber
+     *
+     * @param accountNumber a factor to retrieve transactions from
+     * @return the number of transactions with accountNumber
      */
     public int viewTransactionsByAccount(String accountNumber){
 
-        boolean accountAvailabe = false;
-        int numberOfTimes = 0;
-        for(int index=0; index < transactionCount; index++){
+        boolean accountAvailable = false;
+        int accountHasTransactions = 0;
+        for(int index=transactionCount - 1; index >=0; index--){
             Transaction transaction = transactions[index];
-            if (transaction.getAccountNumber().equals(accountNumber)){
-                numberOfTimes++;
-                if (numberOfTimes == 1){
-                    displayTitle();
+            if (transaction.getAccountNumber().equalsIgnoreCase(accountNumber)){
+                accountHasTransactions++;
+                if (accountHasTransactions == 1){
+                    displayTitle(); // if the first transaction is found
                 }
-                accountAvailabe = true;
+                accountAvailable = true;
                 transaction.displayTransactionDetails();
             }
         }
-        if (!accountAvailabe){
+        if (!accountAvailable){
             System.out.println("-".repeat(50));
             System.out.println("No transactions recorded for this account.");
             System.out.println("-".repeat(50));
         }
-        return numberOfTimes;
+        return accountHasTransactions;
 
     }
 

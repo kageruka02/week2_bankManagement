@@ -7,6 +7,15 @@ import com.bank.utils.CustomerInfo;
 
 public class CustomerService {
 
+    /**
+     *
+     * customerChoice
+     *
+     * @param customerChoice means 2 - regularCustomer , 1 - premiumCustomer
+     * @param deposit the initial deposit which will help us know the type of customer
+     * @param customerInfo contains the information required to create a customer
+     * @return the customer created if all things are valid
+     */
 
     public Customer createCustomer(int customerChoice, double deposit , CustomerInfo customerInfo){
         String customerName = customerInfo.getName();

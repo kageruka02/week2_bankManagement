@@ -21,7 +21,7 @@ public class MenuService {
 
     public  void starter(){
 
-        accountService.create5AccountstoBeginWith(accountManager);
+        accountService.create5Accounts(accountManager);
         while(true){
 
             printMenuService();
