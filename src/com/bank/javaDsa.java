@@ -12,10 +12,15 @@ public class javaDsa {
         try{
             getDown();
         }
-        catch( Exception e){
-            System.out.println(e.getCause().toString());
+        catch(Exception e){
+            StackTraceElement[] elements = e.getStackTrace();
+            for (StackTraceElement el: elements){
+                System.out.println("class name is"+ el.getClassName());
+                System.out.println("file name is"+ el.getFileName());
+                System.out.println("line number is"+ el.getLineNumber());
+                System.out.println("method name is"+ el.getMethodName());
+            }
         }
-
 
 
     }
