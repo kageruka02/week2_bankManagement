@@ -19,7 +19,7 @@ public class MenuService {
     TransactionService transactionService = new TransactionService();
 
 
-    public  void starter(){
+    public   void starter(){
 
         accountService.create5Accounts(accountManager);
         while(true){

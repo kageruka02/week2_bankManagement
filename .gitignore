@@ -32,4 +32,4 @@ bin/
 
 ### java class ###
 *.class
-/src/com/bank/javaDsa.java
+/src/main/java/com/bank/javaDsa.java

@@ -7,6 +7,10 @@ public class AccountManager {
     private final Account[] accounts = new Account[50];
     private int accountCount = 0;
 
+    /**
+     *
+     * @param toBeStoredAccount the account ready to be added to array
+     */
     public void addAccount(Account toBeStoredAccount){
         if (toBeStoredAccount == null){
             return;
@@ -20,6 +24,11 @@ public class AccountManager {
         }
     }
 
+    /**
+     *
+     * @param accountNumber the unique identifier of the account
+     * @return the account if found or null if nothing found
+     */
     public Account findAccount(String accountNumber){
 
         for(int index =0; index < this.accountCount; index++){
@@ -31,6 +40,9 @@ public class AccountManager {
         return null;
     }
 
+    /**
+     * prints all the accounts available in the array
+     */
     public void viewAllAccounts() {
 
         for(int index=0; index < accountCount ; index++ ){
@@ -40,6 +52,10 @@ public class AccountManager {
         }
     }
 
+    /**
+     *
+     * @return sum of all accounts balance in our array
+     */
     public double getTotalBalance(){
         double sumOfBalances = 0;
         for (int index=0; index < accountCount ; index++){
@@ -47,6 +63,11 @@ public class AccountManager {
         }
         return sumOfBalances;
     }
+
+    /**
+     *
+     * @return all accounts we have in our array
+     */
     public int getAccountCount(){
         return this.accountCount;
     }

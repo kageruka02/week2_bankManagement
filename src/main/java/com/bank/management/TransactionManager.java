@@ -9,6 +9,11 @@ public class TransactionManager {
     private final Transaction[] transactions = new Transaction[200];
     private int transactionCount = 0;//keep track of all transactions stored in transactions
 
+    /**
+     * adds a transaction to persistence
+     *
+     * @param toBeCreatedTransaction transaction created to be added to our array
+     */
     public void addTransaction(Transaction toBeCreatedTransaction){
         if (toBeCreatedTransaction == null){
             return;
@@ -27,7 +32,7 @@ public class TransactionManager {
      * search for all transactions for accountNumber and print them from the most recent to the least recent
      *
      *
-     * @param accountNumber a factor to retrieve transactions from
+     * y@param accountNumber a factor to be considered retrieving from our array
      * @return the number of transactions with accountNumber
      */
     public int viewTransactionsByAccount(String accountNumber){
@@ -54,6 +59,9 @@ public class TransactionManager {
 
     }
 
+    /**
+     * display title before listing all accounts available
+     */
     private void displayTitle(){
         System.out.println("TRANSACTION HISTORY");
         System.out.println("_".repeat(71));
@@ -67,6 +75,11 @@ public class TransactionManager {
 
     }
 
+    /**
+     *
+     * @param accountNumber the account number to findBy
+     * @return the sum of deposits the accountNumber has made
+     */
     public double calculateTotalDeposits(String accountNumber){
 
         double sum = 0;
@@ -79,6 +92,12 @@ public class TransactionManager {
         }
         return sum;
     }
+
+    /**
+     *
+     * @param accountNumber the accountNumber to findby
+     * @return the sum of all withdrawals the account has done
+     */
     public double calculateTotalWithdrawals(String accountNumber){
 
         double sumOfwithdrawals = 0;
@@ -92,6 +111,10 @@ public class TransactionManager {
         return sumOfwithdrawals;
     }
 
+    /**
+     *
+     * @return all transactions we have in our array
+     */
     public int getTransactionCount(){
         return transactionCount;
     }
