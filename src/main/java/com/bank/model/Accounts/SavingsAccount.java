@@ -1,9 +1,9 @@
 package com.bank.model.Accounts;
 
+import com.bank.exceptions.InsuficientFundsException;
+import com.bank.exceptions.InvalidAmountException;
 import com.bank.model.Customers.Customer;
 import com.bank.utils.FormatUtils;
-
-import java.text.DecimalFormat;
 
 public class SavingsAccount extends Account {
 
@@ -41,39 +41,41 @@ public class SavingsAccount extends Account {
         System.out.println(formatted1);
 
     }
+
     @Override
-    public void withdraw(double amount){
-        Double balance = calculateWithdrawal(amount);
-        if (balance == null){
-                    return;
-        }
+    public void deposit(double amount) throws InvalidAmountException {
+        double newBalance = calculateDeposit(amount);
+        super.setBalance(newBalance);
+    }
+
+    @Override
+    public void withdraw(double amount) throws InsuficientFundsException, InvalidAmountException{
+        double balance = calculateWithdrawal(amount);
         super.setBalance(balance);
 
     }
 
     @Override
-    public double calculateDeposit(double amount) {
+    public double calculateDeposit(double amount) throws InvalidAmountException {
         if (amount <= 0){
-            throw new IllegalArgumentException("amount should be greater than 0");
+            throw new InvalidAmountException("amount should be greater than 0");
         }
         return super.getBalance() +amount;
     }
 
     @Override
-    public Double calculateWithdrawal(double amount) {
+    public double calculateWithdrawal(double amount) throws InsuficientFundsException, InvalidAmountException  {
         double balance = super.getBalance();
-        if (amount <= 0 || amount > balance){
-            System.out.println("you can only  withdraw up to $"+
-                    FormatUtils.formatAmount(balance-this.getMinimumBalance()));
-            return null;
+        if (amount <= 0 ){
+            String message = "Error: Invalid amount. Amount must be greater than 0";
+            throw new InvalidAmountException(message);
         }
         double remainingBalance =  balance - amount;
 
         if (remainingBalance < this.minimumBalance){
-            System.out.println("This is a saving account The minimum balance is $500");
-            System.out.println("you can only  withdraw up to $"+ FormatUtils.formatAmount(balance-this.getMinimumBalance()));
 
-            return null;
+            String message = "This is a saving account The minimum balance is $500\n"+ "you can only  withdraw up to $ "+ FormatUtils.formatAmount(balance-this.getMinimumBalance());
+            throw new InsuficientFundsException(message);
         }
         return remainingBalance;
     }
@@ -105,7 +107,7 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public boolean processTransaction(double amount, String type) {
+    public boolean processTransaction(double amount, String type) throws InsuficientFundsException, InvalidAmountException {
         if (type.equalsIgnoreCase("withdraw")){
             withdraw(amount);
             return true;

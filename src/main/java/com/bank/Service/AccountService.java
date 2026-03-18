@@ -10,6 +10,7 @@ import com.bank.utils.AccountDisplaysUtils;
 import com.bank.utils.CustomerInfo;
 import com.bank.utils.InputValidation;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AccountService {
@@ -57,17 +58,59 @@ public class AccountService {
      * @return an object which bind the customer information
      */
     private CustomerInfo readCustomerInfo(Scanner scanner){
-        String customerWelcome = "Enter customer name: ";
-        System.out.print(customerWelcome);
-        String customerName = inputValidation.getStringFromConsole(scanner, "PUT IN VALID NAME \n"+ customerWelcome);
-        System.out.print("Enter customer age: ");
-        int age = inputValidation.getAgeFromConsole(scanner, "put in a valid age");
-        String customerContact = "Enter customer contact: ";
-        System.out.print(customerContact);
-        String contact = inputValidation.getStringFromConsole(scanner, "PUT IN VALID NAME \n"+ customerContact);
-        String customerAddress = "Enter customer address: ";
-        System.out.print(customerAddress);
-        String address = inputValidation.getStringFromConsole(scanner, "PUT IN VALID NAME \n"+ customerAddress);
+
+
+        String customerName;
+        while (true) {
+            try {
+                System.out.print("Enter customer name: ");
+                customerName = inputValidation.getStringFromConsole(scanner);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        int age;
+        while (true) {
+            try {
+                System.out.print("Enter customer age: ");
+                age = inputValidation.getAgeFromConsole(scanner);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+
+
+
+        String contact;
+        while (true) {
+            try {
+                System.out.print("Enter customer contact: ");
+                contact = inputValidation.getContactFromConsole(scanner);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+
+
+
+
+        String address;
+        while (true) {
+            try {
+                System.out.print("Enter customer address: ");
+                address = inputValidation.getStringFromConsole(scanner);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         return new CustomerInfo(customerName, age, contact, address);
     }
 
@@ -81,15 +124,33 @@ public class AccountService {
         System.out.println("\nCustomer type:");
         System.out.println("1. Regular Customer (Standard banking services)");
         System.out.println("2. Premium Customer (Enhanced benefits, min balance $10, 000)");
-        System.out.print("\nSelect type (1-2): ");
-       return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): ") ;
+
+
+        while(true){
+            try{
+                System.out.print("\nSelect type (1-2): ");
+                return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): ") ;
+            }
+            catch(InputMismatchException e){
+                System.out.println(e.getMessage());
+            }
+        }
+
     }
     private int readAccountType(Scanner scanner){
         System.out.println("\nAccount type:");
         System.out.println("1. Saving Account (Interest: 3.5%, Min Balance: $500)");
         System.out.println("2. Checking Account (Overdraft: $1,000, Monthly Fee: $10)");
-        System.out.print("\nSelect type (1-2): ");
-        return inputValidation.getChoice(scanner, 1,2, "Select type (1-2): ");
+
+        while(true){
+            try{
+                System.out.print("\nSelect type (1-2): ");
+                return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): ") ;
+            }
+            catch(InputMismatchException e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     /**

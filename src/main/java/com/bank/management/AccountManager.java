@@ -1,5 +1,6 @@
 package com.bank.management;
 
+import com.bank.exceptions.InvalidAccountException;
 import com.bank.model.Accounts.Account;
 
 public class AccountManager {
@@ -29,7 +30,7 @@ public class AccountManager {
      * @param accountNumber the unique identifier of the account
      * @return the account if found or null if nothing found
      */
-    public Account findAccount(String accountNumber){
+    public Account findAccount(String accountNumber) throws InvalidAccountException{
 
         for(int index =0; index < this.accountCount; index++){
            Account acc = this.accounts[index];
@@ -37,7 +38,7 @@ public class AccountManager {
                 return acc;
             }
         }
-        return null;
+        throw new InvalidAccountException("Error: Account not found. Please check the account number and try again");
     }
 
     /**
