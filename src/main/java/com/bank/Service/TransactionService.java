@@ -160,7 +160,7 @@ public class TransactionService {
      */
    public void printTransactionsToCli(TransactionManager transactionManager, Scanner scanner, AccountManager accountManager){
 
-       System.out.println("VIEW TRANSACTION HISTORY");
+       System.out.println("GENERATE ACCOUNT STATEMENT");
        System.out.println("_".repeat(50));
        //gets account number from the console and search for it
        Account account = readAndSearchValidAccount(scanner, inputValidation,accountManager);
@@ -176,19 +176,20 @@ public class TransactionService {
        //
        System.out.println("Total Transactions: "+ allOccurrences);
        double totalDeposits = transactionManager.calculateTotalDeposits(account.getAccountNumber());
-       System.out.println("Total Deposits: $"+ totalDeposits);
+       System.out.println("Total Deposits: $"+FormatUtils.formatAmount(totalDeposits) );
        double totalWithdrawals =  transactionManager.calculateTotalWithdrawals(account.getAccountNumber());
-       System.out.println("Total Withdrawals: $"+ totalWithdrawals);
+       System.out.println("Total Withdrawals: $"+FormatUtils.formatAmount(totalWithdrawals) );
        double netChange = Math.abs(totalDeposits - totalWithdrawals);
 
        String netChangeStr;
        if (totalDeposits >= totalWithdrawals){
-           netChangeStr = "+$"+ netChange;
+           netChangeStr = "+$"+ FormatUtils.formatAmount(netChange);
        }
        else {
            netChangeStr = "-$"+ netChange;
        }
        System.out.println("Net Change: "+ netChangeStr);
+       System.out.println( "\n" + "\u2713" + " Statement generated successfully");
 
 
    }
