@@ -1,5 +1,6 @@
 package com.bank.utils;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputValidation {
@@ -8,41 +9,68 @@ public class InputValidation {
      * takes age from console and only returns if it is > 0
      *
      * @param scanner
-     * @param message
      * @return
      */
-    public int getAgeFromConsole(Scanner scanner, String message){
-        while(true){
+    public int getAgeFromConsole(Scanner scanner){
 
             try {
                 int age =  Integer.parseInt(scanner.nextLine().trim());
                 if (age > 0){
                     return age;
                 }
+                throw new InputMismatchException("age must be greater than 0");
             } catch (NumberFormatException ignored) {
-
+                throw new InputMismatchException("Invalid age format");
             }
-            System.out.println(message.toUpperCase());
-            System.out.print("Enter customer age: ");
+
+
+    }
+
+    public String getContactFromConsole(Scanner scanner){
+        String input  = scanner.nextLine().trim();
+        if (!input.isEmpty()){
+            return input;
+        }
+        throw new InputMismatchException("give valid contact");
+    }
+
+    private  boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
+
+    private  boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 
     /**
      *  takes string from console and only returns if the string is not empty
      *
      * @param scanner
-     * @param message
      * @return
      */
-    public String getStringFromConsole(Scanner scanner, String message){
+    public String getStringFromConsole(Scanner scanner){
 
-        while(true){
+
             String input = scanner.nextLine().trim();
-            if (!input.isEmpty()){
-                return input;
+            if (input.isEmpty() ){
+                throw new InputMismatchException("Input cannot be empty");
             }
-            System.out.print(message);
-        }
+            if (isDouble(input) || isInteger(input)){
+                throw new InputMismatchException("Plz provide a name not a number");
+            }
+            return input;
+
     }
 
     /**
@@ -56,18 +84,19 @@ public class InputValidation {
      */
     public  int getChoice(Scanner scanner, int allowedValueA, int allowedValueB, String message){
 
-        while(true){
-
-            try {
-                int choice = Integer.parseInt(scanner.nextLine().trim());
-                if (choice == allowedValueA || choice == allowedValueB) {
-                    return choice;
-                }
-            } catch (NumberFormatException e) {
+      try{
+          int choice = Integer.parseInt(scanner.nextLine().trim());
+          if (choice == allowedValueA || choice == allowedValueB) {
+              return choice;
+          }
+          throw new InputMismatchException("Enter valid number");
+      }
+             catch (NumberFormatException e) {
                 // ignore, will print message below
+        throw new InputMismatchException("ENTER A NUMBER PLZ");
             }
-            System.out.print("ENTER VALID OPTION \n"+ message);
-        }
+
+
     }
 
     public  int rangeChoice(Scanner scanner, int min, int max, String s){

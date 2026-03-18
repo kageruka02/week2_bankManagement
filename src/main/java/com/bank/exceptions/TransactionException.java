@@ -1,0 +1,19 @@
+package com.bank.exceptions;
+/*
+*
+* it has 4 inheritors, insuficientFundsException,
+*                       InvalidAccountException,
+*                       InvalidAmountException,
+*                       OverdraftExceededException
+ */
+public class TransactionException extends Exception {
+    private final String message;
+    public TransactionException(String message){
+        this.message = message;
+    }
+
+    @Override
+    public String getMessage() {
+        return this.getClass().getSimpleName()+ "  " + message;
+    }
+}

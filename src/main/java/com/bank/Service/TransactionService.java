@@ -1,13 +1,16 @@
 package com.bank.Service;
 
+import com.bank.exceptions.*;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
 import com.bank.model.Accounts.Account;
+import com.bank.model.Transactions.Transactable;
 import com.bank.model.Transactions.Transaction;
 import com.bank.utils.AccountDisplaysUtils;
 import com.bank.utils.FormatUtils;
 import com.bank.utils.InputValidation;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TransactionService {
@@ -63,13 +66,21 @@ public class TransactionService {
      */
    private Transaction readAndPreviewTransaction(Scanner scanner, int transactionType, Account account ){
        while(true){
-           System.out.print("\nEnter amount: $ ");
-           double inputCash = inputValidation.getPositiveAmount(scanner,  "Enter amount: $ ");
+           try{
+               System.out.print("\nEnter amount: $ ");
+               double inputCash = inputValidation.getPositiveAmount(scanner,  "Enter amount: $ ");
 
-           //create a preview transaction
-           Transaction transaction = previewTransaction(transactionType, inputCash, account);
-           if (transaction != null){
-               return transaction;
+               //create a preview transaction
+               Transaction transaction =  previewTransaction(transactionType, inputCash, account);
+               if (transaction != null){
+                   return transaction;
+               }
+           }
+           catch(InsuficientFundsException | OverdraftExceededException | InvalidAmountException e){
+               System.out.println(e.getMessage());
+           }
+           catch(TransactionException e){
+               System.out.println(e.getMessage());
            }
        }
    }
@@ -81,7 +92,7 @@ public class TransactionService {
      * @param account account to which the transaction will be applied
      * @return the transaction preview
      */
-   private Transaction previewTransaction(int type, double amount, Account account){
+   private Transaction previewTransaction(int type, double amount, Account account) throws TransactionException{
       String transactionType = determineTransactionType(type);
       if (transactionType == null){
           return null;
@@ -97,7 +108,7 @@ public class TransactionService {
 
    }
 
-   private Double calculateBalancePreview(String transactionType, double amount, Account account ){
+   private Double calculateBalancePreview(String transactionType, double amount, Account account ) throws TransactionException {
        if ("deposit".equalsIgnoreCase(transactionType)) {
            return account.calculateDeposit(amount);
        } else if ("withdraw".equalsIgnoreCase(transactionType)) {
@@ -143,8 +154,14 @@ public class TransactionService {
 
        if (confirmed.equalsIgnoreCase("y")){
 
-           transaction.commit();
-           return account.processTransaction(transaction.getAmount(), transaction.getType());
+           try{
+               transaction.commit();
+               return account.processTransaction(transaction.getAmount(), transaction.getType());
+           }
+           catch(Exception e){
+               System.out.println(e.getMessage());
+           }
+
 
 
        }
@@ -206,8 +223,16 @@ public class TransactionService {
        System.out.println("2. Withdrawal");
 
        System.out.println();
-       System.out.print("Select type (1-2): ");
-       return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): " );
+
+       while(true){
+           try{
+               System.out.print("Select type (1-2): ");
+               return inputValidation.getChoice(scanner, 1,2,"Select type (1-2): ") ;
+           }
+           catch(InputMismatchException e){
+               System.out.println(e.getMessage());
+           }
+       }
    }
 
     /**
@@ -221,19 +246,20 @@ public class TransactionService {
     private  Account readAndSearchValidAccount(Scanner scanner,
                                                InputValidation inputValidation,
                                                AccountManager accountManager) {
-        Account account = null;
 
-        while (account == null) {
-            System.out.print("\nEnter Account Number: ");
-            String accountNumber = inputValidation.accountValidation(scanner, "Please input a valid account number");
-            account = accountManager.findAccount(accountNumber);
+        while (true) {
+            try{
+                System.out.print("\nEnter Account Number: ");
+                String accountNumber = inputValidation.accountValidation(scanner, "Please input a valid account number");
+                return accountManager.findAccount(accountNumber);
 
-            if (account == null) {
-                System.out.println("Account not found. Try again.");
             }
+            catch(InvalidAccountException e){
+                System.out.println(e.getMessage());
+            }
+
         }
 
-        return account;
     }
 }
 

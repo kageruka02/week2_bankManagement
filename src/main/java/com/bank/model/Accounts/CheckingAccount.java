@@ -1,9 +1,9 @@
 package com.bank.model.Accounts;
 
+import com.bank.exceptions.InvalidAmountException;
+import com.bank.exceptions.OverdraftExceededException;
 import com.bank.model.Customers.Customer;
 import com.bank.utils.FormatUtils;
-
-import java.text.DecimalFormat;
 
 public class CheckingAccount  extends Account {
 
@@ -49,33 +49,43 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public void withdraw(double amount){
-       Double balance =  calculateWithdrawal(amount);
-       if (balance == null){
-           return ;
-       }
+    public void deposit(double amount) throws InvalidAmountException {
+        double newBalance = calculateDeposit(amount);
+        super.setBalance(newBalance);
+    }
+
+    @Override
+    public void withdraw(double amount) throws OverdraftExceededException, InvalidAmountException {
+       double balance =  calculateWithdrawal(amount);
        super.setBalance(balance);
     }
 
     @Override
-    public double calculateDeposit(double amount) {
+    public double calculateDeposit(double amount) throws InvalidAmountException {
         if (amount <= 0){
-            throw new IllegalArgumentException("amount should be greater than 0");
+            throw new InvalidAmountException("amount should be greater than 0");
         }
         return super.getBalance() +amount;
     }
 
     @Override
-    public Double calculateWithdrawal(double amount) {
+    public double calculateWithdrawal(double amount) throws OverdraftExceededException, InvalidAmountException{
         double balance = super.getBalance();
+        if (amount <= 0 ){
+            String message = "Error: Invalid amount. Amount must be greater than 0";
+            throw new InvalidAmountException(message);
+        }
         double remainingBalance = balance - amount;
 
         if (   remainingBalance < -this.overdraftLimit){
             double allowedWithdrawal = balance+this.overdraftLimit;
-            System.out.println("Your balance is $"+ FormatUtils.formatAmount(this.getBalance()));
-            System.out.println("The overdraft is $"+ FormatUtils.formatAmount(this.overdraftLimit));
-            System.out.println("Don't exceed the overdraft you can only withdraw "+FormatUtils.formatAmount(allowedWithdrawal));
-            return null ;
+            // Build one message string
+            String message = "The overdraft is $" + FormatUtils.formatAmount(this.overdraftLimit) + "\n"
+                    + "Don't exceed the overdraft, you can only withdraw " + FormatUtils.formatAmount(allowedWithdrawal) + "\n"
+                    + "Your balance is $" + FormatUtils.formatAmount(this.getBalance());
+
+            // Throw exception with full message
+            throw new OverdraftExceededException(message);
         }
         return remainingBalance;
 
@@ -111,7 +121,7 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public boolean processTransaction(double amount, String type) {
+    public boolean processTransaction(double amount, String type) throws OverdraftExceededException, InvalidAmountException {
         if (type.equalsIgnoreCase("withdraw")){
             withdraw(amount);
             return true;
