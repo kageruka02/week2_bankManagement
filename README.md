@@ -1,129 +1,150 @@
-# BankManagementApplication
+## 🏦 Bank Management Application
 
-## Overview
-BankManagementApplication is a Java-based project that simulates basic banking operations such as account creation, deposits, withdrawals, and transaction management.  
-It is designed for learning and demonstration purposes, with clear prompts for user interaction and well-commented code for complex logic.
+## 📌 Overview
+The Bank Management Application is a console-based Java application that simulates real-world banking operations such as account creation, deposits, withdrawals, and transaction tracking.  
+
+This version of the project has been refactored into a Maven-based structure, with improved exception handling, input validation, and unit testing to better reflect real-world software development practices.
 
 ---
-## TABLE OF CONTENTS
-- [Features](#FEATURES)
-- [Account Types](#account-types)
-- [Customer Types](#customer-types)
-- [Getting Started](#getting-started)
-- [Usage Guide](#usage-guide)
-- [OOP Principles Applied](#oop-principles-applied)
-- [Minimum Requirements](#minimum-requirements)
 
-## FEATURES
+## 🚀 Key Improvements (Refactored Version)
+- Converted to Maven project structure  
+- Introduced custom exception hierarchy  
+- Implemented fail-fast validation using exceptions  
+- Added JUnit 5 unit testing  
+- Improved code structure and separation of concerns  
+- Refactored services and managers for maintainability  
+
+---
+
+```
+src/
+ ├── main/java/com/bank/
+ │    ├── model/
+ │    │    ├── Accounts/
+ │    │    ├── Customers/
+ │    │    ├── Transactions
+ │    ├── service/
+ │    ├── utils/
+ │    ├── exceptions/
+ │    └── management/
+ │
+ └── test/java/com/bank/
+      ├── management/
+      ├── model/
+      └── exceptions/
+```
+---
+
+## ⚙️ Features
 
 ### Core Functionality
-- **Create Account** - Register new bank accounts for customers
-- **View Accounts** - Display all accounts with their details
-- **Process Transaction** - Deposit or withdraw money from accounts
-- **View Transaction History** - Display transaction history for an account
-- **Simple Menu Navigation** - Intuitive console interface
-
-## ACCOUNT TYPES
-
-| Account Type | Features |
-|--------------|----------|
-| **Savings Account** | • Earns 3.5% annual interest<br>• Minimum balance: $500<br>• Interest calculation available |
-| **Checking Account** | • No interest<br>• Overdraft limit: $1000<br>• Monthly fee: $10 (waived for Premium customers) |
+- Create bank accounts (Savings & Checking)  
+- Deposit and withdraw funds  
+- Enforce business rules (minimum balance, overdraft)  
+- View transaction history  
+- CLI-based user interaction  
 
 ---
 
-## CUSTOMER TYPES
+## 💰 Account Types
+| Account Type      | Features |
+|-------------------|----------|
+| Savings Account   | • 3.5% interest rate • Minimum balance: $500 |
+| Checking Account  | • Overdraft limit: $1000 • Monthly fee: $10 (waived for Premium customers) |
 
+---
+
+## 👤 Customer Types
 | Customer Type | Benefits |
 |---------------|----------|
-| **Regular Customer** | Standard banking services |
-| **Premium Customer** | • Higher transaction limits<br>• Waived monthly fees<br>• Minimum balance: $10,000<br>• Priority service |
+| Regular       | Standard banking services |
+| Premium       | • No monthly fee • Enhanced benefits |
 
-## GETTING STARTED
+---
 
-### Prerequisites
-- Java Development Kit (JDK) 8 or higher
-- Git (for cloning the repository)
+## ⚠️ Exception Handling
+The application uses a custom exception hierarchy:
+- TransactionException (base class)  
+- InsufficientFundsException  
+- OverdraftExceededException  
+- InvalidAmountException  
+- InvalidAccountException  
 
-### Installation && USAGE GUIDE
+---
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/kageruka02/BankManagementApplication/tree/optimizedVersion
-   cd BankManagementApplication
-   cd src
-   javac -d bin com\bank\Main.java (windows) or javac -d bin com/bank/Main.java(linux)
-   java -cp bin com.bank.Main
-2. **USAGE APPLICATION**
-<img width="649" height="493" alt="image" src="https://github.com/user-attachments/assets/bad88574-786c-4c6a-9c01-3c9e318c0d58" />
+## 🔥 Design Approach
+- Validation methods throw exceptions instead of looping  
+- Errors are handled centrally (fail-fast principle)  
+- Improves readability and maintainability  
 
-### 1. Creating an Account
-- Select option **1** from the main menu
-- Enter customer details (name, age, contact, address)
-- Choose customer type (Regular/Premium)
-- Choose account type (Savings/Checking)
-- Enter initial deposit amount
-- System generates unique account number (ACC001, ACC002, etc.)
-<img width="432" height="307" alt="image" src="https://github.com/user-attachments/assets/edfda4e0-8665-4516-8288-c2b34cd199b7" />
+---
 
-### 2. Viewing Accounts
-- Select option **2** from the main menu  
-- Displays all accounts with details:  
-  - Account number  
-  - Customer name and type  
-  - Account type  
-  - Current balance
-<img width="948" height="646" alt="image" src="https://github.com/user-attachments/assets/4debf265-9bc1-4dcc-8ec0-9fb5be87955e" />
+## 🧪 Testing
+Unit tests are implemented using JUnit 5.
 
+### Covered Areas
+- Account operations (deposit, withdraw)  
+- Exception scenarios (invalid input, overdraft, insufficient funds)  
+- Account retrieval validation  
 
-### 3. Processing Transactions
-- Select option **3** from the main menu
-- Enter account number  
-- Choose transaction type (**Deposit/Withdraw**)  
-- Enter transaction amount  
-- System validates and updates balance  
-- Confirmation message is displayed
+### Example Test
+assertThrows(InvalidAccountException.class, () -> manager.findAccount("acc43567"));
+
+---
+
+## ▶️ How to Run
+1. Clone the repository
+   git clone https://github.com/kageruka02/week2_bankManagement
+   cd week2_bankManagement
+
+2. Run using Maven
+   mvn exec:java "-Dexec.mainClass=com.bank.Main"   
 
 
-### 4. Viewing Transaction History
-- Select option **4** from the main menu  
-- Enter account number  
-- Displays all past transactions with:  
-  - Date  
-  - Type (Deposit/Withdraw)  
-  - Amount  
-  - Balance after transaction  
 
-### 5. Exiting the Application
-- Select option **5** from the main menu  
-- Program terminates gracefully with a goodbye message
+---
 
-## OOP PRINCIPLES APPLIED
+## 🧠 OOP Principles Applied
+| Principle      | Implementation |
+|----------------|----------------|
+| Encapsulation  | Private fields with getters/setters |
+| Inheritance    | Account → SavingsAccount, CheckingAccount |
+| Polymorphism   | Method overriding (withdraw, deposit) |
+| Abstraction    | Abstract class Account, interface Transactable |
+| Composition    | Manager classes handling collections |
 
-| Principle      | Implementation                          | Example                          |
-|----------------|-----------------------------------------|----------------------------------|
-| Encapsulation  | Private fields with public getters/setters | Account class fields             |
-| Inheritance    | Parent-Child class relationships        | Account → SavingsAccount         |
-| Polymorphism   | Method overriding                       | displayAccountDetails()          |
-| Abstraction    | Abstract classes & interfaces           | Account (abstract), Transactable |
-| Composition    | Manager classes containing collections  | AccountManager has Account[]     |
+---
 
-## MINIMUM REQUIREMENTS
+## 🏗️ Architecture
+| Layer            | Responsibility |
+|------------------|----------------|
+| CLI Layer        | User interaction |
+| Service Layer    | Business logic |
+| Validation Layer | Input validation |
+| Domain Layer     | Models (Account, Customer) |
+| Exception Layer  | Error handling |
 
-- 📝 All 5 user stories working  
-- 🔢 Static counters for ID generation  
-- 📊 Array-based data management  
-- ✅ Input validation implemented  
-- 💰 Minimum balance enforcement for savings accounts  
-- 💳 Overdraft limit enforcement for checking accounts  
-- 📜 Transaction history tracking
+---
 
-## CONTACT
-Project Maintainer - kageruka02
+## 🔗 Repository
+👉 https://github.com/kageruka02/week2_bankManagement
 
-📧 Email: irumvaleon@gmail.com
+---
+
+## 👨‍💻 Author
+- kageruka02  
+- 📧 irumvaleon@gmail.com  
+
+---
+
+## 💬 Summary
+This project demonstrates the transition from a basic Java application to a more structured and maintainable system by applying:
+- Clean architecture principles  
+- Exception-driven validation  
+- Unit testing practices  
+- Maven project organization  
+
+It reflects both theoretical understanding and practical application of software engineering concepts.
 
 🔗 Project Link: https://github.com/kageruka02/BankManagementApplication
-
-
-
