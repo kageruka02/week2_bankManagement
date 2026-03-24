@@ -1,7 +1,7 @@
 package com.bank.exceptions;
 /*
 *
-* it has 4 inheritors, insuficientFundsException,
+* it has 4 inheritors, insufficientFundsException,
 *                       InvalidAccountException,
 *                       InvalidAmountException,
 *                       OverdraftExceededException

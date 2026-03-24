@@ -8,8 +8,8 @@ public class InputValidation {
     /**
      * takes age from console and only returns if it is > 0
      *
-     * @param scanner
-     * @return
+     * @param scanner accepts console input
+     * @return age if it is valid
      */
     public int getAgeFromConsole(Scanner scanner){
 
@@ -56,8 +56,8 @@ public class InputValidation {
     /**
      *  takes string from console and only returns if the string is not empty
      *
-     * @param scanner
-     * @return
+     * @param scanner takes from the console
+     * @return string if validation  pass
      */
     public String getStringFromConsole(Scanner scanner){
 
@@ -80,7 +80,7 @@ public class InputValidation {
      * @param allowedValueA choice the input maybe equal to
      * @param allowedValueB choice the input maybe equal to
      * @param message will be printed if the user enters invalid choice
-     * @return
+     * @return the input user if valid
      */
     public  int getChoice(Scanner scanner, int allowedValueA, int allowedValueB, String message){
 
@@ -145,7 +145,12 @@ public class InputValidation {
     }
 
 
-
+    /**
+     *
+     * @param scanner gets from the console
+     * @param message the message to be displayed if validation fails
+     * @return the validated input
+     */
     public String accountValidation(Scanner scanner, String message){
 
         while(true){
