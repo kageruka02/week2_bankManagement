@@ -21,6 +21,18 @@ public class CheckingAccount  extends Account {
         this.overdraftLimit = 1000;
     }
 
+    public CheckingAccount(String accountNumber, Customer customer, double balance, String status) {
+        super(accountNumber, customer, balance, status);
+        this.overdraftLimit = 1000;
+        if (customer.getCustomerType().equalsIgnoreCase("premium")){
+            this.monthlyFee = 0;
+        }
+        else{
+            this.monthlyFee = 10;
+        }
+
+    }
+
     @Override
     public String getAccountType() {
         return "Checking";
