@@ -25,6 +25,14 @@ public abstract class Account implements Transactable {
         this.customer = customer;
     }
 
+    //for retrieving accounts from the file
+    public Account(String accountNumber, Customer customer, double balance, String status) {
+        this.accountNumber = accountNumber;
+        this.customer = customer;
+        this.balance = balance;
+        this.status = status;
+    }
+
     public abstract String getAccountType();
 
     public abstract void displayAccountDetails();

@@ -1,5 +1,6 @@
 package com.bank.Service;
 
+import com.bank.exceptions.PersistenceException;
 import com.bank.management.AccountManager;
 import com.bank.model.Accounts.Account;
 import com.bank.model.Accounts.CheckingAccount;
@@ -10,6 +11,7 @@ import com.bank.utils.AccountDisplaysUtils;
 import com.bank.utils.CustomerInfo;
 import com.bank.utils.InputValidation;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -28,7 +30,7 @@ public class AccountService {
      */
     public  Account initiateCreatingAccount(
             Scanner scanner
-    ){
+    ) throws PersistenceException {
         System.out.println("ACCOUNT CREATION");
         System.out.println("__________________________________________\n");
 
@@ -43,6 +45,9 @@ public class AccountService {
         Customer customer = customerService.createCustomer(customerType, deposit,customerInfo); // create either regular customer or vip customer
 
         Account account = createAccount(accountChoice, customer, deposit);
+
+        FilePersistenceService.appendAccount(account);
+
 
         //display account details on console after successful creation
         AccountDisplaysUtils.displayAfterSuccessfulCreation(account);
@@ -211,28 +216,8 @@ public class AccountService {
 
     }
 
-
-
-
-
-    public void create5Accounts(AccountManager accountManager){
-
-        int[] customerChoice = {1,2,1,2,1};
-        double[] deposit = {5250, 3450, 15750, 890, 25300};
-        String[] customerName = {"John Smith", "Sarah Johnson", "Michael Johnson", "Emily Brown", "David Wilson"};
-        int[] age = {23,24,25,26,27};
-        String[] contact = {"07884067854", "07884067854", "07884067854", "07884067854", "07884067854"};
-        String[] address = {"GISOZI", "KAGUGU", "KIGALI","BURUNDI", "UGANDA" };
-
-
-        for (int index=0; index < 5; index++){
-
-            CustomerInfo customerInfo = new CustomerInfo(customerName[index], age[index], contact[index], address[index]);
-            Customer  customer = customerService.createCustomer(customerChoice[index], deposit[index],customerInfo);
-            Account account = createAccount(customerChoice[index], customer, deposit[index]);
-            accountManager.addAccount(account);
-            }
-
+    public void loadAccountsFromFile(AccountManager accountManager){
+       accountManager.addAccounts(FilePersistenceService.loadAccounts()); ;
     }
 
 }

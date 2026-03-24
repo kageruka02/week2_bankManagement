@@ -25,6 +25,15 @@ public   class Transaction {
         autoGenerateTimeStamp();
     }
 
+    public Transaction(String transactionId, String accountNumber, double amount, String type, double balanceAfter, String timeStamp) {
+        this.transactionId = transactionId;
+        this.accountNumber = accountNumber;
+        this.amount = amount;
+        this.type = type;
+        this.balanceAfter = balanceAfter;
+        this.timeStamp = timeStamp;
+    }
+
     public String getTransactionId() {
         return transactionId;
     }
@@ -99,9 +108,7 @@ public   class Transaction {
 
 
     public void commit(){
-
         autoGenerateTransactionId();
         transactionCounter++;
-
     }
 }

@@ -1,12 +1,15 @@
 package com.bank.Service;
 
 
+import com.bank.exceptions.PersistenceException;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
+import com.bank.model.Accounts.Account;
 import com.bank.utils.AccountDisplaysUtils;
 import com.bank.utils.ConsoleUtils;
 import com.bank.utils.InputValidation;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MenuService {
@@ -22,7 +25,17 @@ public class MenuService {
 
     public   void starter(){
 
-        accountService.create5Accounts(accountManager);
+        accountService.loadAccountsFromFile(accountManager);
+        //register shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+
+            try{
+                FilePersistenceService.persistAllAccounts(accountManager.getAllAccounts());
+
+            }catch(PersistenceException e){
+                System.out.println("Accounts or transactions were not persisted");
+            }
+        }));
         while(true){
 
             printMenuService();
@@ -31,22 +44,22 @@ public class MenuService {
 
             switch(menuOption){
                 case 1:
-                  accountManager.addAccount(accountService.initiateCreatingAccount(scanner));
+                  addAccountToAccountManager(accountService, accountManager, scanner);
                   ConsoleUtils.waitForEnter(scanner);
                   break;
-//                case 2:
-//                    AccountDisplaysUtils.printAllAccountsToCLi(accountManager);
-//                    ConsoleUtils.waitForEnter(scanner);
-//                    break;
-
                 case 2:
+                    AccountDisplaysUtils.printAllAccountsToCLi(accountManager);
+                    ConsoleUtils.waitForEnter(scanner);
+                    break;
+
+                case 3:
                    transactionManager.addTransaction(transactionService.initiateTransactionCreation(scanner, accountManager));
                    ConsoleUtils.waitForEnter(scanner);
                     break;
-                case 3:
-                    transactionService.printTransactionsToCli(transactionManager, scanner, accountManager);
-                    ConsoleUtils.waitForEnter(scanner);
-                    break;
+//                case 3:
+//                    transactionService.printTransactionsToCli(transactionManager, scanner, accountManager);
+//                    ConsoleUtils.waitForEnter(scanner);
+//                    break;
                 case 4:
                     System.out.println("Thank you for using Bank Account Management System!");
                     System.out.println("Goodbye!");
@@ -78,6 +91,16 @@ public class MenuService {
         System.out.println("2. Process Transaction");
         System.out.println("3. Generate Account Statements");
         System.out.println("4. Exit");
+    }
+
+    private void addAccountToAccountManager(AccountService accountService, AccountManager accountManager, Scanner scanner){
+        try {
+            Account account = accountService.initiateCreatingAccount(scanner);// only add if persistence succeeds
+            accountManager.addAccount(account);
+        } catch (PersistenceException e) {
+            System.err.println("Error saving account: " + e.getMessage());
+            // maybe notify user or retry
+        }
     }
 
 }
