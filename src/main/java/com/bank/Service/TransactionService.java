@@ -4,7 +4,6 @@ import com.bank.exceptions.*;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
 import com.bank.model.Accounts.Account;
-import com.bank.model.Transactions.Transactable;
 import com.bank.model.Transactions.Transaction;
 import com.bank.utils.AccountDisplaysUtils;
 import com.bank.utils.FormatUtils;
@@ -76,7 +75,7 @@ public class TransactionService {
                    return transaction;
                }
            }
-           catch(InsuficientFundsException | OverdraftExceededException | InvalidAmountException e){
+           catch(InsufficientFundsException | OverdraftExceededException | InvalidAmountException e){
                System.out.println(e.getMessage());
            }
            catch(TransactionException e){
@@ -92,7 +91,7 @@ public class TransactionService {
      * @param account account to which the transaction will be applied
      * @return the transaction preview
      */
-   private Transaction previewTransaction(int type, double amount, Account account) throws TransactionException{
+   private Transaction previewTransaction(int type, double amount, Account account) {
       String transactionType = determineTransactionType(type);
       if (transactionType == null){
           return null;
@@ -108,7 +107,7 @@ public class TransactionService {
 
    }
 
-   private Double calculateBalancePreview(String transactionType, double amount, Account account ) throws TransactionException {
+   private Double calculateBalancePreview(String transactionType, double amount, Account account )  {
        if ("deposit".equalsIgnoreCase(transactionType)) {
            return account.calculateDeposit(amount);
        } else if ("withdraw".equalsIgnoreCase(transactionType)) {

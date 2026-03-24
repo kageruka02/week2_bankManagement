@@ -30,7 +30,7 @@ public class AccountManager {
      * @param accountNumber the unique identifier of the account
      * @return the account if found or null if nothing found
      */
-    public Account findAccount(String accountNumber) throws InvalidAccountException{
+    public Account findAccount(String accountNumber){
 
         for(int index =0; index < this.accountCount; index++){
            Account acc = this.accounts[index];

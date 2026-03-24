@@ -49,19 +49,19 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public void deposit(double amount) throws InvalidAmountException {
+    public void deposit(double amount)  {
         double newBalance = calculateDeposit(amount);
         super.setBalance(newBalance);
     }
 
     @Override
-    public void withdraw(double amount) throws OverdraftExceededException, InvalidAmountException {
+    public void withdraw(double amount) {
        double balance =  calculateWithdrawal(amount);
        super.setBalance(balance);
     }
 
     @Override
-    public double calculateDeposit(double amount) throws InvalidAmountException {
+    public double calculateDeposit(double amount)  {
         if (amount <= 0){
             throw new InvalidAmountException("amount should be greater than 0");
         }
@@ -69,7 +69,7 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public double calculateWithdrawal(double amount) throws OverdraftExceededException, InvalidAmountException{
+    public double calculateWithdrawal(double amount){
         double balance = super.getBalance();
         if (amount <= 0 ){
             String message = "Error: Invalid amount. Amount must be greater than 0";
@@ -121,7 +121,7 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public boolean processTransaction(double amount, String type) throws OverdraftExceededException, InvalidAmountException {
+    public boolean processTransaction(double amount, String type)  {
         if (type.equalsIgnoreCase("withdraw")){
             withdraw(amount);
             return true;

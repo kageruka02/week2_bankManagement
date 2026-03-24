@@ -6,7 +6,7 @@ package com.bank.exceptions;
 *                       InvalidAmountException,
 *                       OverdraftExceededException
  */
-public class TransactionException extends Exception {
+public class TransactionException extends RuntimeException {
     private final String message;
     public TransactionException(String message){
         this.message = message;

@@ -1,6 +1,6 @@
 package com.bank.exceptions;
 
-public class InvalidAccountException extends Exception {
+public class InvalidAccountException extends RuntimeException {
    private final String message;
     public InvalidAccountException(String message ){
         this.message = message;

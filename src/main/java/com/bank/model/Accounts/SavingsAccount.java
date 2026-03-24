@@ -1,6 +1,6 @@
 package com.bank.model.Accounts;
 
-import com.bank.exceptions.InsuficientFundsException;
+import com.bank.exceptions.InsufficientFundsException;
 import com.bank.exceptions.InvalidAmountException;
 import com.bank.model.Customers.Customer;
 import com.bank.utils.FormatUtils;
@@ -43,20 +43,20 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public void deposit(double amount) throws InvalidAmountException {
+    public void deposit(double amount)  {
         double newBalance = calculateDeposit(amount);
         super.setBalance(newBalance);
     }
 
     @Override
-    public void withdraw(double amount) throws InsuficientFundsException, InvalidAmountException{
+    public void withdraw(double amount) {
         double balance = calculateWithdrawal(amount);
         super.setBalance(balance);
 
     }
 
     @Override
-    public double calculateDeposit(double amount) throws InvalidAmountException {
+    public double calculateDeposit(double amount) {
         if (amount <= 0){
             throw new InvalidAmountException("amount should be greater than 0");
         }
@@ -64,7 +64,7 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public double calculateWithdrawal(double amount) throws InsuficientFundsException, InvalidAmountException  {
+    public double calculateWithdrawal(double amount)   {
         double balance = super.getBalance();
         if (amount <= 0 ){
             String message = "Error: Invalid amount. Amount must be greater than 0";
@@ -75,7 +75,7 @@ public class SavingsAccount extends Account {
         if (remainingBalance < this.minimumBalance){
 
             String message = "This is a saving account The minimum balance is $500\n"+ "you can only  withdraw up to $ "+ FormatUtils.formatAmount(balance-this.getMinimumBalance());
-            throw new InsuficientFundsException(message);
+            throw new InsufficientFundsException(message);
         }
         return remainingBalance;
     }
@@ -107,7 +107,7 @@ public class SavingsAccount extends Account {
     }
 
     @Override
-    public boolean processTransaction(double amount, String type) throws InsuficientFundsException, InvalidAmountException {
+    public boolean processTransaction(double amount, String type)  {
         if (type.equalsIgnoreCase("withdraw")){
             withdraw(amount);
             return true;
