@@ -85,8 +85,11 @@ public class TransactionManager {
         double sum = 0;
         for(int index=0; index < transactionCount; index++){
             Transaction trans  = transactions[index];
-            if (trans.getType().equalsIgnoreCase("deposit") && trans.getAccountNumber().equalsIgnoreCase(accountNumber)){
-                sum+=trans.getAmount();
+            if (trans.getAccountNumber().equalsIgnoreCase(accountNumber)){
+                if (trans.getType().equalsIgnoreCase("deposit") ||
+                        trans.getType().equalsIgnoreCase("transfer-in")){
+                    sum += trans.getAmount();
+                }
             }
 
         }
@@ -100,15 +103,18 @@ public class TransactionManager {
      */
     public double calculateTotalWithdrawals(String accountNumber){
 
-        double sumOfwithdrawals = 0;
+        double sumWithdrawals = 0;
         for(int index=0; index < transactionCount; index++){
             Transaction trans = transactions[index];
-            if (trans.getType().equalsIgnoreCase("withdraw") &&  trans.getAccountNumber().equalsIgnoreCase(accountNumber)){
-                sumOfwithdrawals+=trans.getAmount();
+            if (trans.getAccountNumber().equalsIgnoreCase(accountNumber)){
+                if (trans.getType().equalsIgnoreCase("withdraw") ||
+                        trans.getType().equalsIgnoreCase("transfer-out")){
+                    sumWithdrawals += trans.getAmount();
+                }
             }
 
         }
-        return sumOfwithdrawals;
+        return sumWithdrawals;
     }
 
     /**

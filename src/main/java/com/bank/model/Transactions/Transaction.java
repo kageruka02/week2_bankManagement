@@ -60,7 +60,7 @@ public   class Transaction {
         String type = FormatUtils.giveStringFixedLength(getType(), 12);
 
         String amount = "";
-        if (getType().equalsIgnoreCase("deposit")){
+        if (getType().equalsIgnoreCase("deposit") || getType().equalsIgnoreCase("transfer-in")){
             amount = "+$" + FormatUtils.formatAmount(getAmount());
         }
         else{
