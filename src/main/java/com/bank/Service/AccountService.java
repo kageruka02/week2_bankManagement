@@ -30,7 +30,7 @@ public class AccountService {
      */
     public  Account initiateCreatingAccount(
             Scanner scanner
-    ) throws PersistenceException {
+    )  {
         System.out.println("ACCOUNT CREATION");
         System.out.println("__________________________________________\n");
 
@@ -45,9 +45,6 @@ public class AccountService {
         Customer customer = customerService.createCustomer(customerType, deposit,customerInfo); // create either regular customer or vip customer
 
         Account account = createAccount(accountChoice, customer, deposit);
-
-        FilePersistenceService.appendAccount(account);
-
 
         //display account details on console after successful creation
         AccountDisplaysUtils.displayAfterSuccessfulCreation(account);

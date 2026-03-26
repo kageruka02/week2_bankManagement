@@ -28,8 +28,8 @@ public class AccountMapper {
     public static Account fromFileString(String line) {
         String[] parts = line.split(",");
 
-        String accountNumber = parts[0];
-        String type = parts[1];
+        String accountNumber = parts[0].toLowerCase();
+        String type = parts[1].toLowerCase();
         double balance = Double.parseDouble(parts[2]);
         String status = parts[3]; // <-- read status
 

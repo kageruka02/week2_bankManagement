@@ -1,7 +1,6 @@
 package com.bank.Service;
 
 import com.bank.exceptions.PersistenceException;
-import com.bank.management.AccountManager;
 import com.bank.model.Accounts.Account;
 import com.bank.model.Transactions.Transaction;
 import com.bank.utils.mappers.AccountMapper;
@@ -44,10 +43,17 @@ public class FilePersistenceService {
         } catch (IOException e) {
             throw new PersistenceException("Failed to persist accounts :" + e.getMessage());
         }
+    }
 
-
-
-
+    public static synchronized  void persistAllTransactions(List<Transaction> transactions) {
+        try{
+            createDirectoryIfNotExist(TRANSACTIONS_FILE);
+            List<String> transactionsStrings = transactions.stream().map(TransactionMapper::toFileString).toList();
+            Files.write(TRANSACTIONS_FILE, transactionsStrings,StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        }
+        catch(IOException e){
+            System.out.println("can not persist the transactions "+ e.getMessage());
+        }
 
     }
     // Load transactions with try-with-resources

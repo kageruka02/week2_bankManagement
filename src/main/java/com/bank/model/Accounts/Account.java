@@ -31,6 +31,7 @@ public abstract class Account implements Transactable {
         this.customer = customer;
         this.balance = balance;
         this.status = status;
+        accountCounter  = accountCounter +1;
     }
 
     public abstract String getAccountType();

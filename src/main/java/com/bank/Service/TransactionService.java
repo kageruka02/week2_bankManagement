@@ -4,7 +4,6 @@ import com.bank.exceptions.*;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
 import com.bank.model.Accounts.Account;
-import com.bank.model.Transactions.Transactable;
 import com.bank.model.Transactions.Transaction;
 import com.bank.utils.AccountDisplaysUtils;
 import com.bank.utils.FormatUtils;
@@ -134,7 +133,7 @@ public class TransactionService {
         System.out.println("Amount: $"+ FormatUtils.formatAmount(transaction.getAmount()) );
         System.out.println("Previous Balance: $"+ FormatUtils.formatAmount(account.getBalance()) );
         System.out.println("New Balance: $"+FormatUtils.formatAmount(transaction.getBalanceAfter()) );
-        System.out.println("Date/Time: "+ transaction.getTimeStamp());
+        System.out.println("Date/Time: "+ transaction.getTimeStampInSystemZone());
 
         System.out.println("-".repeat(50));
 
@@ -186,7 +185,7 @@ public class TransactionService {
        AccountDisplaysUtils.displayAccountDuringTransactionHistory(account);
 
        //print all transactions of the account to the console
-       int allOccurrences = transactionManager.viewTransactionsByAccount(account.getAccountNumber());
+       int allOccurrences = transactionManager.viewTransactionsByAccount(account.getAccountNumber(), null);
        if (allOccurrences == 0){
            return;
        }
@@ -261,6 +260,10 @@ public class TransactionService {
 
         }
 
+    }
+
+    public void loadTransactionsFile(TransactionManager transactionManager) {
+        transactionManager.addTransactionsCollection(FilePersistenceService.loadTransactions());
     }
 }
 

@@ -39,7 +39,7 @@ public class SavingsAccount extends Account {
     public void displayAccountDetails() {
 
 
-        String accountNumber = FormatUtils.giveStringFixedLength(super.getAccountNumber(), 10);
+        String accountNumber = FormatUtils.giveStringFixedLength(super.getAccountNumber(), 10).toUpperCase();
         String customerName = FormatUtils.giveStringFixedLength(super.getCustomer().getName(), 20);
         String type = FormatUtils.giveStringFixedLength(getAccountType(), 12);
         String balance = FormatUtils.giveStringFixedLength(String.valueOf(FormatUtils.formatAmount(super.getBalance()) ) , 11);

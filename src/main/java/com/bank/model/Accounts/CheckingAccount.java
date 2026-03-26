@@ -42,7 +42,7 @@ public class CheckingAccount  extends Account {
     public void displayAccountDetails() {
 
 
-        String accountNumber = FormatUtils.giveStringFixedLength(super.getAccountNumber(), 10);
+        String accountNumber = FormatUtils.giveStringFixedLength(super.getAccountNumber(), 10).toUpperCase();
         String customerName = FormatUtils.giveStringFixedLength(super.getCustomer().getName(), 20);
         String type = FormatUtils.giveStringFixedLength(getAccountType(), 12);
 

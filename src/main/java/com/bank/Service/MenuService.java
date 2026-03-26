@@ -25,12 +25,13 @@ public class MenuService {
 
     public   void starter(){
 
-        accountService.loadAccountsFromFile(accountManager);
+        loadAccountsAndTransactions(accountManager, transactionManager);
         //register shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
             try{
                 FilePersistenceService.persistAllAccounts(accountManager.getAllAccounts());
+                FilePersistenceService.persistAllTransactions(transactionManager.getAllTransactions());
 
             }catch(PersistenceException e){
                 System.out.println("Accounts or transactions were not persisted");
@@ -44,7 +45,7 @@ public class MenuService {
 
             switch(menuOption){
                 case 1:
-                  addAccountToAccountManager(accountService, accountManager, scanner);
+                  accountManager.addAccount(accountService.initiateCreatingAccount(scanner));
                   ConsoleUtils.waitForEnter(scanner);
                   break;
                 case 2:
@@ -56,11 +57,11 @@ public class MenuService {
                    transactionManager.addTransaction(transactionService.initiateTransactionCreation(scanner, accountManager));
                    ConsoleUtils.waitForEnter(scanner);
                     break;
-//                case 3:
-//                    transactionService.printTransactionsToCli(transactionManager, scanner, accountManager);
-//                    ConsoleUtils.waitForEnter(scanner);
-//                    break;
                 case 4:
+                    transactionService.printTransactionsToCli(transactionManager, scanner, accountManager);
+                    ConsoleUtils.waitForEnter(scanner);
+                    break;
+                case 5:
                     System.out.println("Thank you for using Bank Account Management System!");
                     System.out.println("Goodbye!");
                     return;
@@ -87,20 +88,14 @@ public class MenuService {
         System.out.println(horizontalLine1);
 
         System.out.println("1. Manage accounts");
-//        System.out.println("2. View Accounts");
-        System.out.println("2. Process Transaction");
-        System.out.println("3. Generate Account Statements");
-        System.out.println("4. Exit");
+        System.out.println("2. View Accounts");
+        System.out.println("3. Process Transaction");
+        System.out.println("4. print transaction history");
+        System.out.println("5. Exit");
     }
 
-    private void addAccountToAccountManager(AccountService accountService, AccountManager accountManager, Scanner scanner){
-        try {
-            Account account = accountService.initiateCreatingAccount(scanner);// only add if persistence succeeds
-            accountManager.addAccount(account);
-        } catch (PersistenceException e) {
-            System.err.println("Error saving account: " + e.getMessage());
-            // maybe notify user or retry
-        }
+    private void loadAccountsAndTransactions(AccountManager accountManager, TransactionManager transactionManager){
+        accountService.loadAccountsFromFile(accountManager);
+        transactionService.loadTransactionsFile(transactionManager);
     }
-
 }

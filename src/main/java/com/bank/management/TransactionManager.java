@@ -1,6 +1,7 @@
 package com.bank.management;
 
 import com.bank.model.Transactions.Transaction;
+import com.bank.model.enums.TransactionSort;
 import com.bank.utils.FormatUtils;
 
 import java.util.ArrayList;
@@ -22,8 +23,12 @@ public class TransactionManager {
         if (toBeCreatedTransaction != null){
             transactions.add(toBeCreatedTransaction);
         }
+    }
 
-
+    public void addTransactionsCollection(List<Transaction> transactionsToBeAdded){
+        if (transactionsToBeAdded != null && !transactionsToBeAdded.isEmpty()) {
+            transactions.addAll(transactionsToBeAdded);
+        }
     }
 
     /**
@@ -33,10 +38,17 @@ public class TransactionManager {
      * @param accountNumber the account number to search
      * @return list of transactions for that account
      */
-    public List<Transaction> getTransactionsByAccount(String accountNumber) {
+    public List<Transaction> getTransactionsByAccount(String accountNumber, TransactionSort sortField) {
+        TransactionSort effectiveSort =
+                (sortField == null) ? TransactionSort.DATE : sortField;
+        Comparator<Transaction> comparator = switch (effectiveSort) {
+            case DATE -> Comparator.comparing(Transaction::getTimeStamp);
+            case AMOUNT -> Comparator.comparing(Transaction::getAmount);
+            case TYPE -> Comparator.comparing(Transaction::getType);
+        };
         return transactions.stream()
                 .filter(t -> t.getAccountNumber().equalsIgnoreCase(accountNumber))
-                .sorted(Comparator.comparing(Transaction::getTimeStamp).reversed())
+                .sorted(comparator.reversed())
                 .toList();
     }
 
@@ -46,9 +58,9 @@ public class TransactionManager {
      * @param accountNumber the account number to display
      * @return number of transactions displayed
      */
-    public int viewTransactionsByAccount(String accountNumber) {
-        List<Transaction> result = getTransactionsByAccount(accountNumber);
-
+    public int viewTransactionsByAccount(String accountNumber, TransactionSort sort) {
+        List<Transaction> result = getTransactionsByAccount(accountNumber, sort);
+        System.out.println(result.stream().map(Transaction::getTransactionId).toList());
         if (result.isEmpty()) {
             System.out.println("-".repeat(50));
             System.out.println("No transactions recorded for this account.");
@@ -63,36 +75,6 @@ public class TransactionManager {
         return result.size();
     }
 
-//    /**
-//     * search for all transactions for accountNumber and print them from the most recent to the least recent
-//     *
-//     *
-//     * y@param accountNumber a factor to be considered retrieving from our array
-//     * @return the number of transactions with accountNumber
-//     */
-//    public int viewTransactionsByAccount(String accountNumber){
-//
-//        boolean accountAvailable = false;
-//        int accountHasTransactions = 0;
-//        for(int index=transactions.size(); index >=0; index--){
-//            Transaction transaction = transactions.get(index);
-//            if (transaction.getAccountNumber().equalsIgnoreCase(accountNumber)){
-//                accountHasTransactions++;
-//                if (accountHasTransactions == 1){
-//                    displayTitle(); // if the first transaction is found
-//                }
-//                accountAvailable = true;
-//                transaction.displayTransactionDetails();
-//            }
-//        }
-//        if (!accountAvailable){
-//            System.out.println("-".repeat(50));
-//            System.out.println("No transactions recorded for this account.");
-//            System.out.println("-".repeat(50));
-//        }
-//        return accountHasTransactions;
-//
-//    }
 
     /**
      * display title before listing all accounts available
@@ -119,7 +101,7 @@ public class TransactionManager {
 
         return transactions.stream()
                 .filter(Objects::nonNull)
-                .filter(t -> t.getType().equalsIgnoreCase("withdraw"))
+                .filter(t -> t.getType().equalsIgnoreCase("deposit"))
                 .filter(t -> t.getAccountNumber().equalsIgnoreCase(accountNumber))
                 .mapToDouble(Transaction::getAmount)
                 .sum();
@@ -135,12 +117,16 @@ public class TransactionManager {
 
         return transactions.stream()
                 .filter(Objects::nonNull)
-                .filter(t -> t.getType().equalsIgnoreCase("deposit"))
+                .filter(t -> t.getType().equalsIgnoreCase("withdraw"))
                 .filter(t -> t.getAccountNumber().equalsIgnoreCase(accountNumber))
                 .mapToDouble(Transaction::getAmount)
                 .sum();
 
 
+    }
+
+    public List<Transaction> getAllTransactions(){
+        return transactions;
     }
 
     /**

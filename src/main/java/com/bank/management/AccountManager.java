@@ -20,8 +20,11 @@ public class AccountManager {
         }
     }
 
-    public void addAccounts(Map<String, Account> accountstoBeAdded){
-        accounts.putAll(accountstoBeAdded);
+    public void addAccounts(Map<String, Account> accountsToBeAdded){
+        if (accountsToBeAdded != null){
+            accounts.putAll(accountsToBeAdded);
+        }
+
     }
 
     /**
