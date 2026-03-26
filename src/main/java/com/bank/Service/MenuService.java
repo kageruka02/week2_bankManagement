@@ -19,6 +19,7 @@ public class MenuService {
     AccountManager accountManager = new AccountManager();
     TransactionManager transactionManager = new TransactionManager();
     TransactionService transactionService = new TransactionService();
+    private final ManageAccountsService manageAccountsService = new ManageAccountsService();
 
 
     public   void starter(){
@@ -32,9 +33,8 @@ public class MenuService {
 
             switch(menuOption){
                 case 1:
-                  accountManager.addAccount(accountService.initiateCreatingAccount(scanner));
-                  ConsoleUtils.waitForEnter(scanner);
-                  break;
+                    manageAccountsService.manageAccountsMenu(scanner, accountManager, transactionManager);
+                    break;
 //                case 2:
 //                    AccountDisplaysUtils.printAllAccountsToCLi(accountManager);
 //                    ConsoleUtils.waitForEnter(scanner);
