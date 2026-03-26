@@ -16,13 +16,13 @@ class TransactionServiceTest {
     Customer customer;
     Customer customer1;
     Customer customer2;
-    
+    TransactionService transactionService = new TransactionService();
 
     @BeforeEach
     void setUp(){
-        customer = new RegularCustomer("leon", 14, "078098", "gisozi");
-        customer1 = new PremiumCustomer("leon", 14, "078098", "gisozi");
-        customer2 = new RegularCustomer("leon", 14, "078098", "gisozi");
+        customer = new RegularCustomer("leon", 18, "078098", "gisozi");
+        customer1 = new PremiumCustomer("leon", 19, "078098", "gisozi");
+        customer2 = new RegularCustomer("leon", 20, "078098", "gisozi");
     }
 
     @Test
