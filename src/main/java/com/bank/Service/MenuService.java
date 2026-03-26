@@ -1,6 +1,7 @@
 package com.bank.Service;
 
 
+import com.bank.customListener.HandleTests;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
 import com.bank.utils.AccountDisplaysUtils;
@@ -48,6 +49,10 @@ public class MenuService {
                     ConsoleUtils.waitForEnter(scanner);
                     break;
                 case 4:
+                    HandleTests.handleRunTests();
+                    ConsoleUtils.waitForEnter(scanner);
+                    break;
+                case 5:
                     System.out.println("Thank you for using Bank Account Management System!");
                     System.out.println("Goodbye!");
                     return;
@@ -77,7 +82,9 @@ public class MenuService {
 //        System.out.println("2. View Accounts");
         System.out.println("2. Process Transaction");
         System.out.println("3. Generate Account Statements");
-        System.out.println("4. Exit");
+        System.out.println("4. run tests");
+        System.out.println("5. Exit");
     }
+
 
 }

@@ -131,8 +131,6 @@ public class InputValidation {
     }
 
     public  double getDoubleFromConsole(Scanner scanner, String message){
-
-
         while(true){
             try {
                 return Double.parseDouble(scanner.nextLine().trim());
