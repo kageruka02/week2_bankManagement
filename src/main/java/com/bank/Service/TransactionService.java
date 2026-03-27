@@ -104,15 +104,22 @@ public class TransactionService {
 
     }
 
-    private Double calculateBalancePreview(String transactionType, double amount, Account account) {
-        if ("deposit".equalsIgnoreCase(transactionType)) {
-            return account.calculateDeposit(amount);
-        } else if ("withdraw".equalsIgnoreCase(transactionType)) {
-            return account.calculateWithdrawal(amount);
-        }
-        return null;
-    }
 
+    /**
+     *
+     * @param transactionType the type of the transaction either deposit or withdraw
+     * @param amount amount to be transacted
+     * @param account the account it will be applied to
+     * @return amount to be in the transaction
+     */
+   private Double calculateBalancePreview(String transactionType, double amount, Account account )  {
+       if ("deposit".equalsIgnoreCase(transactionType)) {
+           return account.calculateDeposit(amount);
+       } else if ("withdraw".equalsIgnoreCase(transactionType)) {
+           return account.calculateWithdrawal(amount);
+       }
+       return null;
+   }
     private String determineTransactionType(int type) {
         return switch (type) {
             case 1 -> "deposit";
