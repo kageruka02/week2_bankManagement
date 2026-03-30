@@ -33,4 +33,6 @@ bin/
 ### java class ###
 *.class
 /src/main/java/com/bank/javaDsa.java
+/data
 /target
+.idea

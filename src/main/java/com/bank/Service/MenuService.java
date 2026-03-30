@@ -1,7 +1,9 @@
 package com.bank.Service;
 
 
+
 import com.bank.exceptions.PersistenceException;
+import com.bank.customListener.HandleTests;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
 import com.bank.model.Accounts.Account;
@@ -21,6 +23,7 @@ public class MenuService {
     AccountManager accountManager = new AccountManager();
     TransactionManager transactionManager = new TransactionManager();
     TransactionService transactionService = new TransactionService();
+    private final ManageAccountsService manageAccountsService = new ManageAccountsService();
 
 
     public   void starter(){
@@ -45,22 +48,23 @@ public class MenuService {
 
             switch(menuOption){
                 case 1:
-                  accountManager.addAccount(accountService.initiateCreatingAccount(scanner));
-                  ConsoleUtils.waitForEnter(scanner);
-                  break;
-                case 2:
-                    AccountDisplaysUtils.printAllAccountsToCLi(accountManager);
-                    ConsoleUtils.waitForEnter(scanner);
+                    
+                    manageAccountsService.manageAccountsMenu(scanner, accountManager, transactionManager);
                     break;
-
-                case 3:
+                case 2:
                    transactionManager.addTransaction(transactionService.initiateTransactionCreation(scanner, accountManager));
                    ConsoleUtils.waitForEnter(scanner);
                     break;
-                case 4:
+                case 3:
                     transactionService.printTransactionsToCli(transactionManager, scanner, accountManager);
                     ConsoleUtils.waitForEnter(scanner);
                     break;
+
+//                case 4:
+//                    HandleTests.handleRunTests();
+//                    ConsoleUtils.waitForEnter(scanner);
+//                    break;
+
                 case 5:
                     System.out.println("Thank you for using Bank Account Management System!");
                     System.out.println("Goodbye!");
@@ -88,9 +92,10 @@ public class MenuService {
         System.out.println(horizontalLine1);
 
         System.out.println("1. Manage accounts");
-        System.out.println("2. View Accounts");
-        System.out.println("3. Process Transaction");
-        System.out.println("4. print transaction history");
+        //        System.out.println("2. View Accounts");
+        System.out.println("2. Process Transaction");
+        System.out.println("3. Generate Account Statements");
+        System.out.println("4. Save/Load data");
         System.out.println("5. Exit");
     }
 

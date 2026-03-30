@@ -1,7 +1,6 @@
 package com.bank.model.Accounts;
 
-import com.bank.exceptions.InvalidAmountException;
-import com.bank.exceptions.TransactionException;
+
 import com.bank.model.Customers.Customer;
 import com.bank.model.Transactions.Transactable;
 
@@ -38,12 +37,12 @@ public abstract class Account implements Transactable {
 
     public abstract void displayAccountDetails();
 
-    public abstract void  deposit(double amount) throws InvalidAmountException;
+    public abstract void  deposit(double amount) ;
 
-    public abstract void withdraw(double amount) throws TransactionException;
+    public abstract void withdraw(double amount) ;
 
-    public abstract  double calculateDeposit(double amount) throws InvalidAmountException;
-    public abstract  double calculateWithdrawal(double amount) throws TransactionException;
+    public abstract  double calculateDeposit(double amount) ;
+    public abstract  double calculateWithdrawal(double amount) ;
 
     public String getAccountNumber() {
         return accountNumber;

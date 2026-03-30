@@ -1,12 +1,9 @@
 package com.bank.model.Accounts;
 
-import com.bank.exceptions.InsuficientFundsException;
 import com.bank.exceptions.InvalidAmountException;
-import com.bank.exceptions.OverdraftExceededException;
 import com.bank.exceptions.TransactionException;
 import com.bank.model.Customers.Customer;
 import com.bank.model.Customers.PremiumCustomer;
-import com.bank.utils.FormatUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,14 +30,14 @@ public class AccountTest {
     // ---------------- CheckingAccount Tests ----------------
 
     @Test
-    void testDepositBalanceAfterValidDeposit() throws InvalidAmountException {
+    void testDepositBalanceAfterValidDeposit()  {
         assertEquals("Leon", vipCustomer.getName());
         checkingAccount.deposit(50);
         assertEquals(initialCheckingDeposit + 50, checkingAccount.getBalance());
     }
 
     @Test
-    void testDepositBalanceAfterValidWithdraw() throws TransactionException {
+    void testDepositBalanceAfterValidWithdraw()  {
         checkingAccount.withdraw(40);
         assertEquals(initialCheckingDeposit - 40, checkingAccount.getBalance());
     }
@@ -48,7 +45,7 @@ public class AccountTest {
 
 
     @Test
-    void testWithdrawalWithinOverdraftLimit() throws TransactionException {
+    void testWithdrawalWithinOverdraftLimit() {
         checkingAccount.withdraw(1000);
         assertEquals(initialCheckingDeposit - 1000, checkingAccount.getBalance());
     }
@@ -58,7 +55,7 @@ public class AccountTest {
     // ---------------- SavingsAccount Tests ----------------
 
     @Test
-    void testValidDepositOnSavings() throws TransactionException {
+    void testValidDepositOnSavings()  {
         savingAccount.deposit(50);
         assertEquals(initialSavingDeposit + 50, savingAccount.getBalance());
     }
@@ -66,7 +63,7 @@ public class AccountTest {
 
 
     @Test
-    void testValidWithdrawalOnSavings() throws TransactionException {
+    void testValidWithdrawalOnSavings()  {
         savingAccount.withdraw(40);
         assertEquals(initialSavingDeposit - 40, savingAccount.getBalance());
     }

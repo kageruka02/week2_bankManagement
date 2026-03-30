@@ -1,12 +1,11 @@
 package com.bank.exceptions;
 /*
 *
-* it has 4 inheritors, insuficientFundsException,
-*                       InvalidAccountException,
+* it has 3 inheritors, insufficientFundsException,
 *                       InvalidAmountException,
 *                       OverdraftExceededException
  */
-public class TransactionException extends Exception {
+public class TransactionException extends RuntimeException {
     private final String message;
     public TransactionException(String message){
         this.message = message;

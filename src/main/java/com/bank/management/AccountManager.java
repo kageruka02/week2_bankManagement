@@ -32,7 +32,7 @@ public class AccountManager {
      * @param accountNumber the unique identifier of the account
      * @return the account if found or null if nothing found
      */
-    public Account findAccount(String accountNumber) throws InvalidAccountException{
+    public Account findAccount(String accountNumber){
 
         Account acc = accounts.get(accountNumber.toLowerCase());
         if (acc != null) {

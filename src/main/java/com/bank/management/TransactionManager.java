@@ -101,11 +101,10 @@ public class TransactionManager {
 
         return transactions.stream()
                 .filter(Objects::nonNull)
-                .filter(t -> t.getType().equalsIgnoreCase("deposit"))
+                .filter(t -> t.getType().equalsIgnoreCase("deposit") || t.getType().equalsIgnoreCase("transfer-in"))
                 .filter(t -> t.getAccountNumber().equalsIgnoreCase(accountNumber))
                 .mapToDouble(Transaction::getAmount)
                 .sum();
-
     }
 
     /**
@@ -117,7 +116,9 @@ public class TransactionManager {
 
         return transactions.stream()
                 .filter(Objects::nonNull)
-                .filter(t -> t.getType().equalsIgnoreCase("withdraw"))
+                .filter(t -> t.getType().equalsIgnoreCase("withdraw")
+                        ||
+                        t.getType().equalsIgnoreCase("transfer-out"))
                 .filter(t -> t.getAccountNumber().equalsIgnoreCase(accountNumber))
                 .mapToDouble(Transaction::getAmount)
                 .sum();
@@ -125,9 +126,10 @@ public class TransactionManager {
 
     }
 
-    public List<Transaction> getAllTransactions(){
+    public List<Transaction> getAllTransactions() {
         return transactions;
     }
+
 
     /**
      *

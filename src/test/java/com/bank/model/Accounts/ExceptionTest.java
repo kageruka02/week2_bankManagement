@@ -1,6 +1,6 @@
 package com.bank.model.Accounts;
 
-import com.bank.exceptions.InsuficientFundsException;
+import com.bank.exceptions.InsufficientFundsException;
 import com.bank.exceptions.InvalidAmountException;
 import com.bank.exceptions.OverdraftExceededException;
 import com.bank.model.Customers.Customer;
@@ -52,6 +52,6 @@ public class ExceptionTest {
 
     @Test
     void testWithdrawalReachingLessThanMinimumBalanceThrowsInsufficientFundsException() {
-        assertThrows(InsuficientFundsException.class, () -> savingAccount.withdraw(500));
+        assertThrows(InsufficientFundsException.class, () -> savingAccount.withdraw(500));
     }
 }

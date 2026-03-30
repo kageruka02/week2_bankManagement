@@ -1,3 +1,5 @@
-ACC003,Savings,5000.0,Active,CUS001,uyvy,54,vtfuyb,uygbju,Regular
-acc001,Savings,600.0,Active,CUS001,lion,45,tehran,zionist,Regular
-acc002,Savings,4567.0,Active,CUS002,qwerty,45,uyjk,werfg,Regular
+acc005,Savings,9990.0,Active,CUS001,kagozi,45,jhfgyty,fgdhgfhg,Regular
+acc003,Savings,4650.0,Active,CUS001,uyvy,54,vtfuyb,uygbju,Regular
+acc004,Checking,49960.0,Active,CUS001,lion,34,fdfdfd,kagugu,Regular
+acc001,Savings,20700.0,Active,CUS001,lion,45,tehran,zionist,Regular
+acc002,Savings,5267.0,Active,CUS002,qwerty,45,uyjk,werfg,Regular
