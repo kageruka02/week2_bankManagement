@@ -21,6 +21,18 @@ public class CheckingAccount  extends Account {
         this.overdraftLimit = 1000;
     }
 
+    public CheckingAccount(String accountNumber, Customer customer, double balance, String status) {
+        super(accountNumber, customer, balance, status);
+        this.overdraftLimit = 1000;
+        if (customer.getCustomerType().equalsIgnoreCase("premium")){
+            this.monthlyFee = 0;
+        }
+        else{
+            this.monthlyFee = 10;
+        }
+
+    }
+
     @Override
     public String getAccountType() {
         return "Checking";
@@ -30,7 +42,7 @@ public class CheckingAccount  extends Account {
     public void displayAccountDetails() {
 
 
-        String accountNumber = FormatUtils.giveStringFixedLength(super.getAccountNumber(), 10);
+        String accountNumber = FormatUtils.giveStringFixedLength(super.getAccountNumber(), 10).toUpperCase();
         String customerName = FormatUtils.giveStringFixedLength(super.getCustomer().getName(), 20);
         String type = FormatUtils.giveStringFixedLength(getAccountType(), 12);
 
@@ -49,13 +61,13 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public void deposit(double amount)  {
+    public synchronized void deposit(double amount)  {
         double newBalance = calculateDeposit(amount);
         super.setBalance(newBalance);
     }
 
     @Override
-    public void withdraw(double amount) {
+    public synchronized void withdraw(double amount) {
        double balance =  calculateWithdrawal(amount);
        super.setBalance(balance);
     }

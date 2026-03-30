@@ -3,26 +3,28 @@ package com.bank.management;
 import com.bank.exceptions.InvalidAccountException;
 import com.bank.model.Accounts.Account;
 
+import java.util.*;
+
 public class AccountManager {
 
-    private final Account[] accounts = new Account[50];
-    private int accountCount = 0;
+    private final Map<String, Account> accounts = new HashMap<>();
+
 
     /**
      *
      * @param toBeStoredAccount the account ready to be added to array
      */
     public void addAccount(Account toBeStoredAccount){
-        if (toBeStoredAccount == null){
-            return;
+        if (toBeStoredAccount != null){
+            accounts.put(toBeStoredAccount.getAccountNumber().toLowerCase(), toBeStoredAccount);
         }
-        if (accountCount < 50){
-            accounts[accountCount] = toBeStoredAccount;
-            this.accountCount++;
+    }
+
+    public void addAccounts(Map<String, Account> accountsToBeAdded){
+        if (accountsToBeAdded != null){
+            accounts.putAll(accountsToBeAdded);
         }
-        else{
-            System.out.println("reached maximum accounts");
-        }
+
     }
 
     /**
@@ -32,11 +34,9 @@ public class AccountManager {
      */
     public Account findAccount(String accountNumber){
 
-        for(int index =0; index < this.accountCount; index++){
-           Account acc = this.accounts[index];
-            if (acc.getAccountNumber().equalsIgnoreCase(accountNumber)){
-                return acc;
-            }
+        Account acc = accounts.get(accountNumber.toLowerCase());
+        if (acc != null) {
+            return acc;
         }
         throw new InvalidAccountException("Error: Account not found. Please check the account number and try again");
     }
@@ -46,11 +46,14 @@ public class AccountManager {
      */
     public void viewAllAccounts() {
 
-        for(int index=0; index < accountCount ; index++ ){
-            accounts[index].displayAccountDetails();
+        for (Account acc : accounts.values()) {
+            acc.displayAccountDetails();
             System.out.println("_".repeat(70));
-
         }
+    }
+
+    public Collection<Account> getAllAccounts(){
+        return  accounts.values();
     }
 
     /**
@@ -59,8 +62,8 @@ public class AccountManager {
      */
     public double getTotalBalance(){
         double sumOfBalances = 0;
-        for (int index=0; index < accountCount ; index++){
-            sumOfBalances+=accounts[index].getBalance();
+        for (Account acc : accounts.values()) {
+            sumOfBalances += acc.getBalance();
         }
         return sumOfBalances;
     }
@@ -70,7 +73,7 @@ public class AccountManager {
      * @return all accounts we have in our array
      */
     public int getAccountCount(){
-        return this.accountCount;
+        return accounts.size();
     }
 
 }

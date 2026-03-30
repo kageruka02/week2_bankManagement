@@ -133,12 +133,13 @@ public class TransactionService {
         System.out.println("TRANSACTION CONFIRMATION");
         System.out.println("_".repeat(50));
         System.out.println("Transaction ID:" + transaction.getTransactionId());
-        System.out.println("Account: " + account.getAccountNumber());
-        System.out.println("Type: " + transaction.getType().toUpperCase());
-        System.out.println("Amount: $" + FormatUtils.formatAmount(transaction.getAmount()));
-        System.out.println("Previous Balance: $" + FormatUtils.formatAmount(account.getBalance()));
-        System.out.println("New Balance: $" + FormatUtils.formatAmount(transaction.getBalanceAfter()));
-        System.out.println("Date/Time: " + transaction.getTimeStamp());
+
+        System.out.println("Account: "+ account.getAccountNumber());
+        System.out.println("Type: "+ transaction.getType().toUpperCase());
+        System.out.println("Amount: $"+ FormatUtils.formatAmount(transaction.getAmount()) );
+        System.out.println("Previous Balance: $"+ FormatUtils.formatAmount(account.getBalance()) );
+        System.out.println("New Balance: $"+FormatUtils.formatAmount(transaction.getBalanceAfter()) );
+        System.out.println("Date/Time: "+ transaction.getTimeStampInSystemZone());
 
         System.out.println("-".repeat(50));
 
@@ -187,18 +188,19 @@ public class TransactionService {
         //display account details to the console
         AccountDisplaysUtils.displayAccountDuringTransactionHistory(account);
 
-        //print all transactions of the account to the console
-        int allOccurrences = transactionManager.viewTransactionsByAccount(account.getAccountNumber());
-        if (allOccurrences == 0) {
-            return;
-        }
-        //
-        System.out.println("Total Transactions: " + allOccurrences);
-        double totalDeposits = transactionManager.calculateTotalDeposits(account.getAccountNumber());
-        System.out.println("Total Deposits: $" + FormatUtils.formatAmount(totalDeposits));
-        double totalWithdrawals = transactionManager.calculateTotalWithdrawals(account.getAccountNumber());
-        System.out.println("Total Withdrawals: $" + FormatUtils.formatAmount(totalWithdrawals));
-        double netChange = Math.abs(totalDeposits - totalWithdrawals);
+
+       //print all transactions of the account to the console
+       int allOccurrences = transactionManager.viewTransactionsByAccount(account.getAccountNumber(), null);
+       if (allOccurrences == 0){
+           return;
+       }
+       //
+       System.out.println("Total Transactions: "+ allOccurrences);
+       double totalDeposits = transactionManager.calculateTotalDeposits(account.getAccountNumber());
+       System.out.println("Total Deposits: $"+FormatUtils.formatAmount(totalDeposits) );
+       double totalWithdrawals =  transactionManager.calculateTotalWithdrawals(account.getAccountNumber());
+       System.out.println("Total Withdrawals: $"+FormatUtils.formatAmount(totalWithdrawals) );
+       double netChange = Math.abs(totalDeposits - totalWithdrawals);
 
         String netChangeStr;
         if (totalDeposits >= totalWithdrawals) {
@@ -244,7 +246,7 @@ public class TransactionService {
      * @param accountManager  stores the available account
      * @return account if it exists in the accountManager and continues the loop if it doesn't exist
      */
-    private Account readAndSearchValidAccount(Scanner scanner,
+    public Account readAndSearchValidAccount(Scanner scanner,
                                               InputValidation inputValidation,
                                               AccountManager accountManager) {
 
@@ -262,6 +264,10 @@ public class TransactionService {
 
     }
 
+
+    public void loadTransactionsFile(TransactionManager transactionManager) {
+        transactionManager.addTransactionsCollection(FilePersistenceService.loadTransactions());
+    }
     public void initiateTransfer(Scanner scanner, AccountManager accountManager, TransactionManager transactionManager) {
         System.out.println("\nTRANSFER BETWEEN ACCOUNTS");
         System.out.println("_".repeat(50));
@@ -375,6 +381,7 @@ public class TransactionService {
         System.out.println("Amount : $" + FormatUtils.formatAmount(amount));
         System.out.println("_".repeat(50));
         System.out.print("Confirm transfer? (Y/N): ");
+
     }
 }
 

@@ -3,8 +3,6 @@ package com.bank.model.Transactions;
 import com.bank.utils.FormatUtils;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public   class Transaction {
 
@@ -15,7 +13,9 @@ public   class Transaction {
     private double amount;
     private String type;
     private final double balanceAfter;
-    private String timeStamp;
+    private Instant timeStamp;
+
+
 
     public Transaction(String accountNumber, double amount, String type, double balanceAfter) {
         this.accountNumber = accountNumber;
@@ -23,6 +23,17 @@ public   class Transaction {
         this.type = type;
         this.balanceAfter = balanceAfter;
         autoGenerateTimeStamp();
+    }
+
+    // this is used to retrieve the transactions from the transactions.txt
+    public Transaction(String transactionId, String accountNumber, double amount, String type, double balanceAfter, Instant timeStamp) {
+        this.transactionId = transactionId;
+        this.accountNumber = accountNumber;
+        this.amount = amount;
+        this.type = type;
+        this.balanceAfter = balanceAfter;
+        this.timeStamp = timeStamp;
+        transactionCounter= transactionCounter+1;
     }
 
     public String getTransactionId() {
@@ -37,7 +48,14 @@ public   class Transaction {
     }
 
 
-    public String getTimeStamp() {
+    public String getTimeStampInSystemZone() {
+        return FormatUtils.changeFromInstantToStringSystemZone(this.timeStamp);
+    }
+
+    public String getTimeStampUTC(){
+        return FormatUtils.changeFromInstanttoStringUTC(this.timeStamp);
+    }
+    public Instant getTimeStamp() {
         return timeStamp;
     }
 
@@ -48,15 +66,14 @@ public   class Transaction {
     }
 
     private void autoGenerateTimeStamp(){
-        Instant now = Instant.now();
-      DateTimeFormatter format =   DateTimeFormatter.ofPattern("dd-MM-yy h:mma").withZone(ZoneId.systemDefault());
-      this.timeStamp = format.format(now);
+        this.timeStamp = Instant.now();
     }
 
     public void displayTransactionDetails(){
 
         String transactionId = FormatUtils.giveStringFixedLength(getTransactionId(), 10);
-        String dateTime = FormatUtils.giveStringFixedLength(getTimeStamp(), 22);
+        //getTimeStamp() is in localtime zone
+        String dateTime = FormatUtils.giveStringFixedLength(getTimeStampInSystemZone(), 22);
         String type = FormatUtils.giveStringFixedLength(getType(), 12);
 
         String amount = "";
@@ -99,9 +116,7 @@ public   class Transaction {
 
 
     public void commit(){
-
         autoGenerateTransactionId();
         transactionCounter++;
-
     }
 }

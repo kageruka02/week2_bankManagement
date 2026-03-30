@@ -1,12 +1,14 @@
 package com.bank.Service;
 
 
-import com.bank.customListener.HandleTests;
+
+import com.bank.exceptions.PersistenceException;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
-import com.bank.utils.AccountDisplaysUtils;
+
 import com.bank.utils.ConsoleUtils;
 import com.bank.utils.InputValidation;
+
 
 import java.util.Scanner;
 
@@ -20,11 +22,23 @@ public class MenuService {
     TransactionManager transactionManager = new TransactionManager();
     TransactionService transactionService = new TransactionService();
     private final ManageAccountsService manageAccountsService = new ManageAccountsService();
+    private final ConcurrentTransactionService concurrentTransactionService = new ConcurrentTransactionService();
 
 
     public   void starter(){
 
-        accountService.create5Accounts(accountManager);
+        loadAccountsAndTransactions(accountManager, transactionManager);
+        //register shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+
+            try{
+                FilePersistenceService.persistAllAccounts(accountManager.getAllAccounts());
+                FilePersistenceService.persistAllTransactions(transactionManager.getAllTransactions());
+
+            }catch(PersistenceException e){
+                System.out.println("Accounts or transactions were not persisted");
+            }
+        }));
         while(true){
 
             printMenuService();
@@ -35,11 +49,6 @@ public class MenuService {
                 case 1:
                     manageAccountsService.manageAccountsMenu(scanner, accountManager, transactionManager);
                     break;
-//                case 2:
-//                    AccountDisplaysUtils.printAllAccountsToCLi(accountManager);
-//                    ConsoleUtils.waitForEnter(scanner);
-//                    break;
-
                 case 2:
                    transactionManager.addTransaction(transactionService.initiateTransactionCreation(scanner, accountManager));
                    ConsoleUtils.waitForEnter(scanner);
@@ -48,10 +57,12 @@ public class MenuService {
                     transactionService.printTransactionsToCli(transactionManager, scanner, accountManager);
                     ConsoleUtils.waitForEnter(scanner);
                     break;
+
                 case 4:
-                    HandleTests.handleRunTests();
+                    concurrentTransactionService.depositConcurrent(scanner, accountManager, transactionManager);
                     ConsoleUtils.waitForEnter(scanner);
                     break;
+
                 case 5:
                     System.out.println("Thank you for using Bank Account Management System!");
                     System.out.println("Goodbye!");
@@ -79,12 +90,15 @@ public class MenuService {
         System.out.println(horizontalLine1);
 
         System.out.println("1. Manage accounts");
-//        System.out.println("2. View Accounts");
+        //        System.out.println("2. View Accounts");
         System.out.println("2. Process Transaction");
         System.out.println("3. Generate Account Statements");
-        System.out.println("4. run tests");
+        System.out.println("4. Run concurrency");
         System.out.println("5. Exit");
     }
 
-
+    private void loadAccountsAndTransactions(AccountManager accountManager, TransactionManager transactionManager){
+        accountService.loadAccountsFromFile(accountManager);
+        transactionService.loadTransactionsFile(transactionManager);
+    }
 }
