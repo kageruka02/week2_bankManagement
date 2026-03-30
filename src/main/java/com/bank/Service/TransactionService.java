@@ -272,6 +272,7 @@ public class TransactionService {
         Account destinationAccount = readAndSearchValidAccount(scanner, inputValidation, accountManager);
         AccountDisplaysUtils.printAccountInTransaction(destinationAccount);
 
+        //check if the user inputs the same account
         if (!validateTransferAccounts(sourceAccount, destinationAccount)) return;
 
         System.out.print("\nEnter transfer amount: $");
