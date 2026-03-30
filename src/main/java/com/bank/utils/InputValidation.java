@@ -1,7 +1,10 @@
 package com.bank.utils;
 
+import com.bank.exceptions.InvalidAccountException;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class InputValidation {
 
@@ -32,6 +35,13 @@ public class InputValidation {
             return input;
         }
         throw new InputMismatchException("give valid contact");
+    }
+
+    public void validateContact(String contact){
+        String patternString = "^(\\+25|25)?07\\d{8}$";
+        boolean isMatch  =  Pattern.matches(patternString, contact);
+        if (isMatch) return;
+        throw new InputMismatchException("PLZ INPUT RWANDAN CONTACT");
     }
 
     private  boolean isInteger(String str) {
@@ -151,18 +161,13 @@ public class InputValidation {
      */
     public String accountValidation(Scanner scanner, String message){
 
-        while(true){
-
                 String accountNumber = scanner.nextLine().trim();
-                if (accountNumber.toUpperCase().startsWith("ACC")){
+                String accountValidationString = "^[Aa][Cc][Cc](00[1-9]|[1-9][0-9]{2})$";
+        boolean isMatch = Pattern.matches(accountValidationString, accountNumber);
+                if (isMatch){
                     return accountNumber;
                 }
-
-                System.out.println(message);
-                System.out.print("Enter Account Number: ");
-
-
-        }
+                throw new InvalidAccountException(message.toUpperCase());
     }
 
 

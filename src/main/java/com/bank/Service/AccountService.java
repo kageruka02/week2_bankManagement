@@ -92,6 +92,7 @@ public class AccountService {
             try {
                 System.out.print("Enter customer contact: ");
                 contact = inputValidation.getContactFromConsole(scanner);
+                inputValidation.validateContact(contact);
                 break;
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage());

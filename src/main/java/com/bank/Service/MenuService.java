@@ -3,15 +3,13 @@ package com.bank.Service;
 
 
 import com.bank.exceptions.PersistenceException;
-import com.bank.customListener.HandleTests;
 import com.bank.management.AccountManager;
 import com.bank.management.TransactionManager;
-import com.bank.model.Accounts.Account;
-import com.bank.utils.AccountDisplaysUtils;
+
 import com.bank.utils.ConsoleUtils;
 import com.bank.utils.InputValidation;
 
-import java.io.IOException;
+
 import java.util.Scanner;
 
 public class MenuService {
@@ -24,6 +22,7 @@ public class MenuService {
     TransactionManager transactionManager = new TransactionManager();
     TransactionService transactionService = new TransactionService();
     private final ManageAccountsService manageAccountsService = new ManageAccountsService();
+    private final ConcurrentTransactionService concurrentTransactionService = new ConcurrentTransactionService();
 
 
     public   void starter(){
@@ -48,7 +47,6 @@ public class MenuService {
 
             switch(menuOption){
                 case 1:
-                    
                     manageAccountsService.manageAccountsMenu(scanner, accountManager, transactionManager);
                     break;
                 case 2:
@@ -60,10 +58,10 @@ public class MenuService {
                     ConsoleUtils.waitForEnter(scanner);
                     break;
 
-//                case 4:
-//                    HandleTests.handleRunTests();
-//                    ConsoleUtils.waitForEnter(scanner);
-//                    break;
+                case 4:
+                    concurrentTransactionService.depositConcurrent(scanner, accountManager, transactionManager);
+                    ConsoleUtils.waitForEnter(scanner);
+                    break;
 
                 case 5:
                     System.out.println("Thank you for using Bank Account Management System!");
@@ -95,7 +93,7 @@ public class MenuService {
         //        System.out.println("2. View Accounts");
         System.out.println("2. Process Transaction");
         System.out.println("3. Generate Account Statements");
-        System.out.println("4. Save/Load data");
+        System.out.println("4. Run concurrency");
         System.out.println("5. Exit");
     }
 

@@ -246,7 +246,7 @@ public class TransactionService {
      * @param accountManager  stores the available account
      * @return account if it exists in the accountManager and continues the loop if it doesn't exist
      */
-    private Account readAndSearchValidAccount(Scanner scanner,
+    public Account readAndSearchValidAccount(Scanner scanner,
                                               InputValidation inputValidation,
                                               AccountManager accountManager) {
 
