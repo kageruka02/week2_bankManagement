@@ -73,4 +73,10 @@ public class RegExTest {
         assertThrows(InputMismatchException.class,
                 () -> validator.validateContact("+25078"));
     }
+    @Test
+    void invalidNumberWithoutMtnOrAirtel(){
+        assertThrows(InputMismatchException.class, () -> {
+            validator.validateContact("0775060545");
+        });
+    }
 }

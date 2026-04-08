@@ -1,12 +1,12 @@
 package com.bank;
 
-import java.util.Arrays;
+
 import java.util.concurrent.locks.ReentrantLock;
 
 
 public class DSA {
 
-    private static ReentrantLock lock = new ReentrantLock();
+    private static final ReentrantLock lock = new ReentrantLock();
     static int n  = 0;
     private static  boolean running = true;
 

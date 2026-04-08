@@ -38,7 +38,7 @@ public class InputValidation {
     }
 
     public void validateContact(String contact){
-        String patternString = "^(\\+25|25)?07\\d{8}$";
+        String patternString = "^(\\+25|25)?07[389]\\d{7}$";
         boolean isMatch  =  Pattern.matches(patternString, contact);
         if (isMatch) return;
         throw new InputMismatchException("PLZ INPUT RWANDAN CONTACT");

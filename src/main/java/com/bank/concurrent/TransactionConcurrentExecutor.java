@@ -17,13 +17,13 @@ public class TransactionConcurrentExecutor {
     public  void simulateDeposits(Account account, TransactionManager transactionManager){
 
         for (int i=0; i < 5; i++){
-            executor.submit(new DepositTask(3, account, transactionManager));
+            executor.execute(new DepositTask(3, account, transactionManager));
         }
     }
 
     public  void simulateWithdrawals(Account account, TransactionManager transactionManager){
         for (int i=0; i < 5; i++){
-            executor.submit(new WithdrawTask(3, account, transactionManager));
+            executor.execute(new WithdrawTask(3, account, transactionManager));
         }
     }
 
@@ -31,7 +31,7 @@ public class TransactionConcurrentExecutor {
             try {
 
                 executor.shutdown();
-                executor.awaitTermination(10, TimeUnit.SECONDS);
+                executor.awaitTermination(30, TimeUnit.SECONDS);
                 TransactionLogger.counter.set(0);
             } catch (InterruptedException e) {
                 System.out.println("Thread pool shutdown interrupted: " + e.getMessage());
