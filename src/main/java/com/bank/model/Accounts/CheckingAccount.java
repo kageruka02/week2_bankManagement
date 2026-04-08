@@ -61,13 +61,13 @@ public class CheckingAccount  extends Account {
     }
 
     @Override
-    public synchronized void deposit(double amount)  {
+    public  void deposit(double amount)  {
         double newBalance = calculateDeposit(amount);
         super.setBalance(newBalance);
     }
 
     @Override
-    public synchronized void withdraw(double amount) {
+    public  void withdraw(double amount) {
        double balance =  calculateWithdrawal(amount);
        super.setBalance(balance);
     }

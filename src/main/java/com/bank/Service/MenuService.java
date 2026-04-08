@@ -34,6 +34,7 @@ public class MenuService {
             try{
                 FilePersistenceService.persistAllAccounts(accountManager.getAllAccounts());
                 FilePersistenceService.persistAllTransactions(transactionManager.getAllTransactions());
+                System.out.println("Data automatically saved to disk");
 
             }catch(PersistenceException e){
                 System.out.println("Accounts or transactions were not persisted");

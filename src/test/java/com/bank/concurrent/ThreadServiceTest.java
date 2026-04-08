@@ -34,26 +34,26 @@ class ThreadServiceTest {
     void concurrentDepositsOnSameAccountShouldBeAccurate() throws InterruptedException {
 
         // submit 10 deposits of $100 concurrently
-        for (int i = 0; i < 10; i++) {
-            TransactionConcurrentExecutor.simulateDeposits(account,  transactionManager);
+        for (int i = 0; i < 200; i++) {
+            executor.simulateDeposits(account,  transactionManager);
         }
 
         executor.stopTheExecutor(); // waits for all threads to finish
 
-        assertEquals(350000, account.getBalance()); // 1000 + (10 x 100)
+        assertEquals(203000, account.getBalance()); // 1000 + (10 x 100)
 
     }
 
     @Test
     void concurrentWithdrawalOnSameAccountShouldBeAccurate() throws InterruptedException{
         // submit 10 deposits of $100 concurrently
-        for (int i = 0; i < 10; i++) {
-            TransactionConcurrentExecutor.simulateWithdrawals(account,  transactionManager);
+        for (int i = 0; i < 200; i++) {
+            executor.simulateWithdrawals(account,  transactionManager);
         }
 
         executor.stopTheExecutor(); // waits for all threads to finish
 
-        assertEquals(50000, account.getBalance());
+        assertEquals(197000, account.getBalance());
     }
 }
 

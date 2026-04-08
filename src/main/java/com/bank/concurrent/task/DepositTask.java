@@ -19,7 +19,6 @@ public class DepositTask implements  Runnable {
 
             synchronized (account){
                 try{
-
                     account.processTransaction(amount, "deposit");
                     Transaction transaction = new Transaction(
                             account.getAccountNumber(), amount, "deposit", account.getBalance()
